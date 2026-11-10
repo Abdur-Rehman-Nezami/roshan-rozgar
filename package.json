@@ -13,7 +13,14 @@
     "build": "pnpm -r build",
     "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "dev": "node scripts/dev.mjs",
+    "db:migrate": "node scripts/run-task.mjs db:migrate",
+    "db:seed": "node scripts/run-task.mjs db:seed",
+    "test": "node --conditions=development --test --test-isolation=none scripts/test/*.test.mjs",
+    "e2e": "node scripts/run-task.mjs e2e",
+    "audio:build": "node scripts/run-task.mjs audio:build",
+    "eval:triage": "node scripts/run-task.mjs eval:triage"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",
