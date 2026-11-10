@@ -1,9 +1,11 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
+import { IdSchema } from "@roshan/shared";
 import type { ReadinessSchema } from "@roshan/shared";
 import type { z } from "zod";
 import { HttpError, isAllowedOrigin, publicError } from "./security.ts";
 import { readJsonBody } from "./body.ts";
 import type { createAuthController } from "../auth/controller.ts";
+import type { createMvpService } from "../mvp/service.ts";
 import { serviceInfo } from "../index.ts";
 
 /** Interim transport while Fastify plugins are unavailable; domain services stay transport-free. */
@@ -11,6 +13,7 @@ export function createHttpHandler(options: {
   readiness: () => Promise<z.infer<typeof ReadinessSchema>>;
   publicUrl?: string;
   auth?: ReturnType<typeof createAuthController>;
+  mvp?: ReturnType<typeof createMvpService>;
 }) {
   return async (request: IncomingMessage, response: ServerResponse) => {
     response.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -18,7 +21,8 @@ export function createHttpHandler(options: {
     response.setHeader("X-Content-Type-Options", "nosniff");
     response.setHeader("Referrer-Policy", "no-referrer");
     try {
-      const pathname = new URL(request.url ?? "/", "http://internal").pathname;
+      const url = new URL(request.url ?? "/", "http://internal");
+      const pathname = url.pathname;
       if (request.method === "GET" && pathname === "/healthz") {
         response.end(JSON.stringify({ ok: true, ...serviceInfo }));
       } else if (request.method === "GET" && pathname === "/readyz") {
@@ -27,6 +31,28 @@ export function createHttpHandler(options: {
         response.end(JSON.stringify(readiness));
       } else if (request.method === "GET" && pathname === "/api/me" && options.auth) {
         response.end(JSON.stringify(await options.auth.me(request.headers.cookie)));
+      } else if (pathname.startsWith("/api/mvp/") && options.auth && options.mvp) {
+        const current = await options.auth.me(request.headers.cookie);
+        const user = { userId: current.user.id, role: current.user.role };
+        if (request.method === "GET" && pathname === "/api/mvp/state") {
+          const id = url.searchParams.get("requestId");
+          if (id !== null) IdSchema.parse(id);
+          response.end(JSON.stringify(await options.mvp.state(user, id)));
+        } else if (request.method === "POST" && pathname === "/api/mvp/command") {
+          const site = request.headers["sec-fetch-site"];
+          if (
+            !options.publicUrl ||
+            !isAllowedOrigin(
+              request.headers.origin,
+              typeof site === "string" ? site : undefined,
+              options.publicUrl,
+            )
+          )
+            throw new HttpError(403, "FORBIDDEN", "Use this site's controls");
+          response.end(
+            JSON.stringify(await options.mvp.command(user, await readJsonBody(request))),
+          );
+        } else throw new HttpError(404, "NOT_FOUND", "Route not found");
       } else if (
         request.method === "POST" &&
         (pathname === "/api/auth/otp/start" || pathname === "/api/auth/otp/verify") &&

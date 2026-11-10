@@ -6,6 +6,10 @@ Read HANDOFF.md, PROGRESS.md, then BUILD_PLAN.md §0–§3 and §18. Read §6 an
 
 The user has authorized application implementation, starting with Phase 0 at F-01. Continue dependency-ready work from HANDOFF.md and preserve separate commits for completed phases. Keep incomplete or externally blocked checks visible. The user has explicitly asked to leave GitHub aside, continue implementing and committing locally, and supply push commands. Do not retry GitHub unless asked. Continue implementation in task order when earlier code exists but environment-only acceptance checks are blocked; preserve those blocked statuses instead of treating them as completed dependencies.
 
+## Current MVP scope (latest user instruction)
+
+The user has about 45 minutes and explicitly prioritizes a working MVP over production robustness. Build the tap-only golden path in coherent slices; defer additional Fastify/BullMQ hardening, advanced AI/RAG, exhaustive tests and detailed documentation. Keep PostgreSQL booking consistency, participant privacy, explicit confirmations and visible DEMO disclosures. Use the existing Node HTTP transport and simple polling for the MVP. Keep honest checks and short progress/handoff checkpoints.
+
 ## Product and engineering rules (BUILD_PLAN.md §0)
 
 - Never present mocked or seeded data as real. Anything mocked shows a visible "DEMO" label in the UI and is listed in README > "Seeded & mocked".

@@ -1280,3 +1280,8 @@ See §8.3. Store it in `packages/shared/src/lexicon.ts` as data (intent → phra
 | wapas | واپس | back |
 | madad | مدد | help |
 | abhi chahiye | ابھی چاہیے | needed now (emergency) |
+
+
+## 21. Time-boxed MVP scope override (user instruction, 2026-11-10)
+
+The user requests a working MVP within approximately 45 minutes, prioritizing breadth over production hardening. Deliver one tap-only path: sign-in → worker profile/availability → customer task/request → matching → offer acceptance → text/price chat → booking hold and both confirmations → job steps → cash DEMO completion → review. Use the current Node HTTP transport and simple polling; expose a compact validated `/api/mvp/state` and `/api/mvp/command` facade over the existing PostgreSQL tables. Existing rich API contracts remain the future target. Include a small explicitly seeded catalog/demo accounts and reproducible startup commands. Defer Fastify/plugin replacement, BullMQ, advanced voice, live providers, hybrid RAG, deployment and secondary screens until this path works. Preserve DB exclusion protection, role/party guards, address privacy and explicit confirmation. Do not claim the original phases or external checks are complete merely because the MVP source exists.

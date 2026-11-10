@@ -51,7 +51,7 @@ export function AppShell({
           </select>
         </label>
       </header>
-      <div className="preview-banner">{t.preview}</div>
+      <div className="preview-banner">DEMO · {t.auth.demo}</div>
       {!online && (
         <div className="offline-banner" role="alert">
           {t.offline}

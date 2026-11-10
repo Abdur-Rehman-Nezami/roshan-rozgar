@@ -1,3 +1,5 @@
+> MVP override: user has ~45 minutes and prioritizes a working version of every golden-path step over production detail. See BUILD_PLAN.md §21 and AGENTS.md. Compact SQL facade + full tap UI are now implemented; next is explicit browser demo mode, happy-path verification and startup commands.
+
 # Roshan Rozgar — session handoff
 
 Updated: 2026-11-10 (Asia/Karachi).
@@ -71,3 +73,7 @@ phase, and refresh the bundle. Never commit secrets or invent passed checks.
 ## Latest offline dependency audit
 
 All cached tarballs were integrity checked, but that does not establish a valid pnpm resolution. A post-build audit found the cached root Lightning CSS1.33.0 does not match @tailwindcss/node's exact1.32.0 dependency. The Vite build passes with this temporary cache, but a normal locked install is still required. Parser-package export manifests also prevented the simple audit from determining their versions; those audit entries are inconclusive, not established runtime failures. Do not copy this temporary node_modules tree as a reproducible install.
+
+## MVP checkpoint (after 4be0719)
+
+Implemented compact shared MVP schemas/catalog, PostgreSQL command/state service for profiles through reviews, authenticated HTTP facade, a catalog/three-worker seed script, and localized compact React screens for the whole tap path. Normal backend keeps PostgreSQL exclusion/transactions/party guards and address privacy. UI polls every three seconds. Shared/server/web builds PASS using cached tools. Real DB/browser acceptance remains NOT_RUN. This is a source checkpoint, not completion of original production phases.

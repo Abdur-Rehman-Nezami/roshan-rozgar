@@ -11,10 +11,12 @@ import { createRedisOtpStore } from "./auth/redis-otp.ts";
 import { createIdentityRepository } from "./db/identities.ts";
 import { createAuthController } from "./auth/controller.ts";
 import { createRedisRateLimiter } from "./http/rate-limit.ts";
+import { createMvpService } from "./mvp/service.ts";
 
 const config = loadConfig();
 const services = createServices(config, (event) => console.error(JSON.stringify({ event })));
 const handler = createHttpHandler({
+  mvp: createMvpService(services.database),
   publicUrl: config.PUBLIC_URL,
   auth: createAuthController(
     createAuthService({

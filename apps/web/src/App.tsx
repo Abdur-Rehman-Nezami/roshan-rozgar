@@ -4,6 +4,7 @@ import type { ScreenId } from "@roshan/shared";
 import { AppShell } from "./app/AppShell.tsx";
 import { PreferencesProvider, usePreferences } from "./app/preferences.tsx";
 import { Welcome } from "./app/Welcome.tsx";
+import { MvpWorkspace } from "./app/MvpWorkspace.tsx";
 import { MicrophoneStep, SignIn } from "./app/SignIn.tsx";
 
 function Placeholder({ screen }: { screen: ScreenId }) {
@@ -47,7 +48,9 @@ export function App() {
             <Route
               key={screen}
               path={SCREEN_ROUTES[screen] as string}
-              element={<Placeholder screen={screen} />}
+              element={
+                screen === "D1" ? <Placeholder screen={screen} /> : <MvpWorkspace screen={screen} />
+              }
             />
           ))}
           <Route path="*" element={<NotFound />} />

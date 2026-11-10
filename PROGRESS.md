@@ -1,3 +1,5 @@
+> Latest instruction: time-boxed MVP, roughly 45 minutes. Prioritize the tap-only golden path, simple polling and existing transport; defer production hardening. See BUILD_PLAN.md §21. A-02–A-07/B-02–B-04 MVP implementation is now IN_PROGRESS; original acceptance gates remain tracked below.
+
 # Roshan Rozgar — build progress
 
 Updated: 2026-11-10 (Asia/Karachi).
@@ -177,3 +179,10 @@ For future checkpoints append date, task/phase, commit ID from the previous comm
 - Verified task completion is **1/44 = 2.3%**. Phase 0 acceptance is **1/8 = 12.5%**. No phase has met all exit checks (**0/6**). Eight foundation tasks plus A-01/B-02 are tracked as started or externally blocked; 34 tasks remain NOT_STARTED.
 - Code-scope estimates: Foundation roughly **65–70%**, early core flow roughly **5–10%**, overall roughly **15%**. These are rough implementation estimates, not measured acceptance or deployment percentages. The complete booking flow has not been built.
 - Latest evidence: 73 passing native cases, cached workspace production builds, final server typecheck/build and Prettier PASS. No real-service/browser/device gates passed in this environment. GitHub remains deferred.
+
+### Time-boxed MVP golden-path source checkpoint
+
+- Added shared MVP catalog/command/state schemas and `/api/mvp/state` + `/api/mvp/command`, preserving richer contracts as future targets.
+- SQL actions now cover worker profile/availability, customer requests, matching state, timed offers, accept/decline, text/price negotiation, DB-protected holds, both-party confirmation, arrival/job steps, customer-confirmed DEMO cash completion and reviews/statistics.
+- Added `scripts/seed.ts` for four areas, eight trades/rate cards and three explicitly DEMO worker accounts. Added localized compact screens for these actions with polling and private-address display rules.
+- PASS: shared/server/web builds with cached dependencies. Real SQL/runtime/device checks remain pending. Phase acceptance counts are unchanged; original advanced features are deferred by user instruction.

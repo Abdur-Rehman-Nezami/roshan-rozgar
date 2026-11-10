@@ -42,6 +42,7 @@ import {
   TriageOutputSchema,
 } from "./ai.ts";
 import { WorkerProfileInputSchema } from "./profile.ts";
+import { MvpCommandSchema, MvpStateSchema } from "./mvp.ts";
 
 export const OtpStartSchema = z
   .object({ phone: PhoneSchema, role: z.enum(["worker", "customer"]) })
@@ -161,6 +162,13 @@ const PriceInput = z
   .strict()
   .refine((input) => Boolean(input.taskText || input.taskSlug), "Provide a task");
 export const API_CONTRACT = {
+  mvpState: { method: "GET", path: "/api/mvp/state", response: MvpStateSchema },
+  mvpCommand: {
+    method: "POST",
+    path: "/api/mvp/command",
+    body: MvpCommandSchema,
+    response: z.object({ ok: z.literal(true), id: IdSchema.optional() }).strict(),
+  },
   otpStart: {
     method: "POST",
     path: "/api/auth/otp/start",
