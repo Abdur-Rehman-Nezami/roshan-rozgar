@@ -20,11 +20,13 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 - F-01: pnpm workspace, strict TypeScript, environment/configuration files, shared constants and a three-language React/Vite starter. Cached typecheck/build/format checks pass. Normal install, lockfile and ESLint are still pending. See [F-01 verification](docs/verification/F-01.md). Commit: `4e41968`.
 - F-02: Compose for Postgres17/pgvector and Redis7/AOF; development supervisor starts watchable server/jobs/web processes and stops peers on failure; root task commands; four passing lifecycle tests. Compose config and server typecheck pass. HTTP/jobs entrypoints are foundation scaffolding, not F-05 service implementation. Full runtime gate remains blocked.
 
+- F-03: shared Zod schemas/types for data entities, 42 API operations, six socket events, seventeen AI outputs, 28 screens and three-language prompts/lexicon. Fourteen contract tests plus four supervisor tests pass; workspace typecheck/build pass with cached dependencies. See docs/adr/0001-shared-contracts.md. Task accepted within the cached validation scope; full install/lint remains tracked separately under F-01.
+
 ## Exact next work
 
-Implement **F-03 shared Zod schemas/contracts** from BUILD_PLAN.md §6, §7, §7.1, §8.5, §10.2 and Appendix A. Keep public worker data separate from private user/contact data, validate consequential AI actions, and cover invalid ranges/statuses and assistant targets with tests. Zod 3.25.75 exists in the read-only npm cache and can be recovered for local verification. Do not treat contracts as business-route implementation.
+Implement **F-04**: SQL migration from BUILD_PLAN.md §6.1, a transaction-safe version/checksum migration runner, and the Drizzle mirror. PostgreSQL client `psql` exists, but daemon/container access and local TCP binding remain restricted. Verify what is possible without claiming a live migration. Then continue F-05 through F-08, preserving blocked external checks.
 
-Then implement F-04 SQL migration, safe migration runner and Drizzle mirror. Follow the plan in order through F-08. Keep installation/runtime/provider gates separately open; do not claim Phase 0 complete until all real checks pass.
+All code work to date is in local commits; use the Git log for hashes. Earlier F-01 commit is `4e41968`, F-02 is `4fae12c`. Keep the recovery bundle updated before ending the session. No phase is complete.
 
 ## Environment and validation limits
 
@@ -34,7 +36,7 @@ Then implement F-04 SQL migration, safe migration runner and Drizzle mirror. Fol
 - For cached checks only, invoke pinned pnpm with `--config.verify-deps-before-run=false`; otherwise it attempts installation. This flag is not committed to workspace configuration.
 - Use Node native tests with `--test-isolation=none` in this sandbox, so assertions run in the current process and results report individual cases. Vitest/Playwright integration remains future work.
 - Compose configuration validation works, but Docker daemon socket access is denied. Local HTTP binding is denied (`listen EPERM`). No development servers or jobs are running.
-- Shared/server/web typechecks, TypeScript emits and the Vite production bundle passed against cached packages at F-01. F-02 adds four passing supervisor tests and Compose validation.
+- Shared/server/web typechecks and builds pass against cached packages. F-02 adds four passing supervisor tests and Compose validation; F-03 adds fourteen contract tests.
 - No migrations, provider API calls, deployment, browser or device rehearsals have run. Build outputs are ignored.
 
 ## Missing inputs
