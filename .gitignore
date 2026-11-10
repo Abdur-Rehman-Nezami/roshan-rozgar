@@ -1,0 +1,21 @@
+# Environment and credentials
+.env
+.env.*
+!.env.example
+.aws/
+
+# Local tool state and planning recovery artifacts
+.planning-git/
+*.bundle
+.agents/
+.codex/
+
+# Future application artifacts
+node_modules/
+dist/
+data/
+coverage/
+playwright-report/
+test-results/
+*.log
+.DS_Store
