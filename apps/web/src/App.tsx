@@ -1,9 +1,10 @@
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Link, Route, Routes } from "react-router-dom";
 import { SCREEN_IDS, SCREEN_ROUTES } from "@roshan/shared";
 import type { ScreenId } from "@roshan/shared";
 import { AppShell } from "./app/AppShell.tsx";
 import { PreferencesProvider, usePreferences } from "./app/preferences.tsx";
 import { Welcome } from "./app/Welcome.tsx";
+import { isStandaloneDemo } from "./demo/store.ts";
 import { MvpWorkspace } from "./app/MvpWorkspace.tsx";
 import { MicrophoneStep, SignIn } from "./app/SignIn.tsx";
 
@@ -32,10 +33,13 @@ function NotFound() {
     </AppShell>
   );
 }
+const Router = isStandaloneDemo() ? HashRouter : BrowserRouter;
+if (isStandaloneDemo()) localStorage.setItem("rr.browserDemo", "true");
+
 export function App() {
   return (
     <PreferencesProvider>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/w/mic" element={<MicrophoneStep />} />
@@ -55,7 +59,7 @@ export function App() {
           ))}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </PreferencesProvider>
   );
 }

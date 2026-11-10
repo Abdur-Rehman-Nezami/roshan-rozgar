@@ -159,6 +159,11 @@
     "customerConfirmed": "Customer confirmed",
     "workerConfirmed": "Worker confirmed",
     "backHome": "Dashboard",
-    "view": "View"
+    "view": "View",
+    "tryDemo": "Try the demo now",
+    "browserDemo": "Browser DEMO · saved on this device · no live AI or payments",
+    "resetDemo": "Reset demo",
+    "useServer": "Use server mode",
+    "demoWorker": "Choose DEMO worker"
   }
 }

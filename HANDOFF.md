@@ -1,3 +1,19 @@
+# Current MVP handoff
+
+The latest user instruction is **a time-boxed MVP, with working breadth over production robustness**. Do not resume infrastructure hardening before the demo is rehearsed. GitHub remains deferred; commit locally.
+
+- Open `roshan-rozgar-demo.html` for the self-contained browser simulation. Full walkthrough: docs/MVP_DEMO.md.
+- Source: shared `mvp.ts`, server `mvp/service.ts`, web `MvpWorkspace.tsx` and `demo/store.ts`. Compact state/command API, polling, PostgreSQL transactions/exclusion, and an explicitly separate browser simulation.
+- Golden path implemented: profile → request → matches → offer → text/price agreement → hold → both confirmations → arrival/job steps → customer-confirmed DEMO cash completion → review.
+- Latest checks: 77 native tests PASS; workspace builds PASS using cached dependencies. Exported script syntax is checked. Browser runtime has no connected browsers; real DB/Redis acceptance remains NOT_RUN.
+- Commands: `pnpm dev:web` for frontend demo, `pnpm demo:export` to regenerate HTML. Backend: `pnpm setup:env`, Compose up, migrations, seed, `pnpm dev`.
+- Next: open and rehearse the HTML demo in a real browser, fix any UI issue found, then verify PostgreSQL/Redis mode in a normal environment. Live voice/AI, uploads, advanced RAG, BullMQ/production hardening and deployment are deliberately deferred for the MVP.
+- Local Git remains `.planning-git`, branch main. Use `git --git-dir=.planning-git --work-tree=. ...`. Last compact SQL/UI checkpoint was `a328382`; use git log for latest. Recovery bundle is refreshed after commits. See docs/PUSH.md.
+
+---
+
+The earlier foundation history below remains useful context; its earlier next-work priorities are superseded by this MVP handoff.
+
 > MVP override: user has ~45 minutes and prioritizes a working version of every golden-path step over production detail. See BUILD_PLAN.md §21 and AGENTS.md. Compact SQL facade + full tap UI are now implemented; next is explicit browser demo mode, happy-path verification and startup commands.
 
 # Roshan Rozgar — session handoff

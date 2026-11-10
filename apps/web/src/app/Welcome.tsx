@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { enableBrowserDemo } from "../demo/store.ts";
 import { LANGUAGES } from "@roshan/shared";
 import { AppShell } from "./AppShell.tsx";
 import { usePreferences } from "./preferences.tsx";
@@ -8,6 +9,11 @@ const languageNames = { ur: "اردو", roman: "Roman Urdu", en: "English" } as 
 export function Welcome() {
   const [step, setStep] = useState<"start" | "language" | "role">("start");
   const { language, setLanguage, t } = usePreferences();
+  const navigate = useNavigate();
+  const demo = (role: "worker" | "customer") => {
+    enableBrowserDemo(role);
+    navigate(role === "worker" ? "/w/home" : "/c/home");
+  };
   return (
     <AppShell
       screen="W0"
@@ -21,6 +27,20 @@ export function Welcome() {
         <h1 id="screen-title" tabIndex={-1}>
           {step === "start" ? t.welcome : step === "language" ? t.chooseLanguage : t.role}
         </h1>
+        {step === "start" && (
+          <section className="demo-launch">
+            <h2>{t.mvp.tryDemo}</h2>
+            <p>{t.mvp.browserDemo}</p>
+            <div className="two-col">
+              <button type="button" onClick={() => demo("worker")}>
+                🛠 {t.worker}
+              </button>
+              <button type="button" onClick={() => demo("customer")}>
+                🏠 {t.customer}
+              </button>
+            </div>
+          </section>
+        )}
         {step === "start" && (
           <button className="primary-button" type="button" onClick={() => setStep("language")}>
             <span aria-hidden="true">▶</span> {t.start}

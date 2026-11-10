@@ -20,7 +20,10 @@
     "test": "node --conditions=development --test --test-isolation=none scripts/test/*.test.mjs packages/shared/test/*.test.mjs apps/server/test/*.test.mjs apps/web/test/*.test.mjs",
     "e2e": "node scripts/run-task.mjs e2e",
     "audio:build": "node scripts/run-task.mjs audio:build",
-    "eval:triage": "node scripts/run-task.mjs eval:triage"
+    "eval:triage": "node scripts/run-task.mjs eval:triage",
+    "dev:web": "vite apps/web --config apps/web/vite.config.ts --host 127.0.0.1",
+    "demo:export": "pnpm --filter @roshan/web build && node scripts/export-demo.mjs",
+    "setup:env": "node scripts/init-env.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.0",

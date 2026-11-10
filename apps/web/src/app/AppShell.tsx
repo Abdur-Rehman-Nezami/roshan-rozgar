@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import type { PropsWithChildren } from "react";
-import { PROMPTS, SCREEN_PROMPTS } from "@roshan/shared";
+import { MVP_TASKS, PROMPTS, SCREEN_PROMPTS } from "@roshan/shared";
 import type { PromptId, ScreenId } from "@roshan/shared";
 import { usePreferences } from "./preferences.tsx";
+import {
+  browserDemoEnabled,
+  enableBrowserDemo,
+  getBrowserDemo,
+  openDemoPath,
+  isStandaloneDemo,
+} from "../demo/store.ts";
 
 export function AppShell({
   children,
@@ -52,6 +59,73 @@ export function AppShell({
         </label>
       </header>
       <div className="preview-banner">DEMO · {t.auth.demo}</div>
+      {browserDemoEnabled() && (
+        <div className="browser-demo-banner">
+          <strong>{t.mvp.browserDemo}</strong>
+          <div className="demo-actions">
+            <label>
+              <span className="sr-only">{t.mvp.demoWorker}</span>
+              <select
+                aria-label={t.mvp.demoWorker}
+                defaultValue=""
+                onChange={(e) => {
+                  if (e.target.value) {
+                    getBrowserDemo().selectWorker(e.target.value);
+                    openDemoPath("/w/home");
+                  }
+                }}
+              >
+                <option value="">{t.mvp.demoWorker}</option>
+                {MVP_TASKS.map((task) => (
+                  <option key={task.trade} value={task.trade}>
+                    {task.icon} {task.label[language]}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="button"
+              onClick={() => {
+                enableBrowserDemo("worker");
+                openDemoPath("/w/home");
+              }}
+            >
+              {t.worker}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                enableBrowserDemo("customer");
+                openDemoPath("/c/home");
+              }}
+            >
+              {t.customer}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (window.confirm(t.mvp.resetDemo + "?")) {
+                  getBrowserDemo().reset();
+                  openDemoPath("/");
+                }
+              }}
+            >
+              {t.mvp.resetDemo}
+            </button>
+            {!isStandaloneDemo() && (
+              <button
+                type="button"
+                onClick={() => {
+                  localStorage.removeItem("rr.browserDemo");
+                  openDemoPath("/");
+                }}
+              >
+                {t.mvp.useServer}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
       {!online && (
         <div className="offline-banner" role="alert">
           {t.offline}

@@ -38,7 +38,7 @@ export function createMvpService(database: Pick<Pool, "query" | "connect">) {
         ),
         database.query(
           `SELECT r.id,r.task_slug AS task,r.trade_slug AS trade,r.description_text AS description,
-        r.area_id AS "areaId",lower(r.wanted)::text AS start,upper(r.wanted)::text AS "end",r.status,
+        r.area_id AS "areaId",to_json(lower(r.wanted))#>>'{}' AS start,to_json(upper(r.wanted))#>>'{}' AS "end",r.status,
         CASE WHEN r.customer_id=$1 OR EXISTS(SELECT 1 FROM bookings b WHERE b.request_id=r.id
           AND b.worker_id=$1 AND b.status IN ('confirmed','on_the_way','arrived','in_progress','completed'))
           THEN r.address_detail ELSE NULL END AS address
@@ -48,7 +48,7 @@ export function createMvpService(database: Pick<Pool, "query" | "connect">) {
         ),
         database.query(
           `SELECT o.id,o.request_id AS "requestId",o.worker_id AS "workerId",o.status,
-        o.expires_at::text AS "expiresAt",t.id AS "threadId" FROM offers o
+        to_json(o.expires_at)#>>'{}' AS "expiresAt",t.id AS "threadId" FROM offers o
         JOIN job_requests r ON r.id=o.request_id LEFT JOIN threads t ON t.offer_id=o.id
         WHERE r.customer_id=$1 OR o.worker_id=$1 ORDER BY o.created_at DESC LIMIT 100`,
           values,
@@ -68,7 +68,7 @@ export function createMvpService(database: Pick<Pool, "query" | "connect">) {
         ),
         database.query(
           `SELECT b.id,b.thread_id AS "threadId",b.request_id AS "requestId",b.worker_id AS "workerId",b.customer_id AS "customerId",
-        b.status,b.agreed_price AS price,b.final_amount AS "finalAmount",b.hold_expires_at::text AS "expiresAt",
+        b.status,b.agreed_price AS price,b.final_amount AS "finalAmount",to_json(b.hold_expires_at)#>>'{}' AS "expiresAt",
         (b.customer_confirmed_at IS NOT NULL) AS "customerConfirmed",(b.worker_confirmed_at IS NOT NULL) AS "workerConfirmed",
         CASE WHEN b.customer_id=$1 THEN b.arrival_code ELSE NULL END AS code,
         CASE WHEN b.customer_id=$1 OR b.status IN ('confirmed','on_the_way','arrived','in_progress','completed')
@@ -305,7 +305,8 @@ export function createMvpService(database: Pick<Pool, "query" | "connect">) {
           SELECT r.id,$1,$2,$3,r.trade_slug,r.task_slug,a.city,r.area_id,r.wanted,'held',now()+interval '5 minutes',$4,$5,
             jsonb_build_object('description',r.description_text,'priceRs',$4::int)
           FROM job_requests r JOIN areas a ON a.id=r.area_id JOIN workers w ON w.user_id=$3
-          WHERE r.id=$6 AND w.availability='free' AND w.profile_complete RETURNING id`,
+          WHERE r.id=$6 AND r.status='matched' AND w.availability='free' AND w.profile_complete
+          AND EXISTS(SELECT 1 FROM offers o JOIN threads t ON t.offer_id=o.id WHERE t.id=$1 AND o.status='accepted') RETURNING id`,
           [
             thread.id,
             uid,
@@ -354,6 +355,10 @@ export function createMvpService(database: Pick<Pool, "query" | "connect">) {
         await client.query("UPDATE job_requests SET status='open' WHERE id=$1", [
           booking.request_id,
         ]);
+        await client.query(
+          "UPDATE offers SET status='withdrawn' WHERE id=(SELECT offer_id FROM threads WHERE id=(SELECT thread_id FROM bookings WHERE id=$1))",
+          [booking.id],
+        );
       } else if (input.action === "status") {
         requireRole(user, ["worker"]);
         if (uid !== booking.worker_id) throw missing();

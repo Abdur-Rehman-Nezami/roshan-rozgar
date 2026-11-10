@@ -159,6 +159,11 @@
     "customerConfirmed": "گاہک نے تصدیق کی",
     "workerConfirmed": "کاریگر نے تصدیق کی",
     "backHome": "ڈیش بورڈ",
-    "view": "دیکھیں"
+    "view": "دیکھیں",
+    "tryDemo": "ابھی ڈیمو آزمائیں",
+    "browserDemo": "براؤزر DEMO · ڈیٹا اسی آلے پر · لائیو اے آئی یا ادائیگی نہیں",
+    "resetDemo": "ڈیمو ری سیٹ کریں",
+    "useServer": "سرور موڈ استعمال کریں",
+    "demoWorker": "DEMO کاریگر چنیں"
   }
 }

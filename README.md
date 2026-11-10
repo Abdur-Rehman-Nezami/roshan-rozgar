@@ -1,8 +1,8 @@
 # Roshan Rozgar (روشن روزگار)
 
-A planned mobile-first service connecting skilled workers and customers through Urdu, Roman Urdu, and English voice and tap flows.
+A mobile-first service connecting skilled workers and customers through Urdu, Roman Urdu and English tap flows.
 
-**Current state: Phase 0 foundation implementation is underway. Local tooling, shared contracts, database migration tooling, backend helpers and a routed multilingual UI preview are committed. No complete application flow or build phase yet.**
+**Time-boxed MVP:** a compact request-to-review flow is implemented, with an explicitly labelled browser simulation and a PostgreSQL backend. Open `roshan-rozgar-demo.html` to try the simulation without installing services. See [the short demo walkthrough](docs/MVP_DEMO.md). Original production-phase acceptance remains open.
 
 Repository: https://github.com/Abdur-Rehman-Nezami/roshan-rozgar
 
@@ -32,21 +32,26 @@ Make small task commits and a distinct completion commit for every phase, with u
 
 ## Run it
 
-Use Node 24 and pnpm 11.25.0 (pinned in `packageManager`). In a normal environment with registry access:
+**Fastest:** open `roshan-rozgar-demo.html`. Select a language and choose **Try the demo now**. Use the demo bar to switch worker/customer roles. No database or credentials are required for this labelled local simulation.
+
+With Node24 and pnpm11.25.0, run from source:
 
 ```bash
-corepack pnpm install
-corepack pnpm -r typecheck
-corepack pnpm --filter @roshan/web dev
+pnpm install
+pnpm dev:web
 ```
 
-Open the Vite URL for the welcome/language/role flow and DEMO phone/code sign-in (`/w/phone` or `/c/signup`). Worker microphone setup has a tap-only continuation. Later profile/booking screens remain placeholders. `pnpm dev` supervises web, server and jobs. The server probes PostgreSQL/Redis readiness, exposes demo OTP and current-user routes, and attaches authenticated Socket.IO rooms; jobs run the database expiry sweeper. Fastify plugins, Redis socket fan-out and BullMQ consumers remain pending. Live startup and two-browser acceptance have not run in this restricted environment.
+Choose **Try the demo now** in the browser. Rebuild the self-contained artifact with `pnpm demo:export`.
 
-Additional workspace commands: `pnpm -r build`, `pnpm lint`, `pnpm format:check`, `pnpm format`. A full installation and lint run are still pending, and `pnpm-lock.yaml` has not been generated. See [F-01 verification](docs/verification/F-01.md) for exact results and environment limitations. Development Compose and migration tooling now exist. See docs/verification/F-04.md before running database migrations. Seed/audio/e2e/evaluation commands fail explicitly until their owning tasks are implemented. Push instructions are in [docs/PUSH.md](docs/PUSH.md).
+For the real PostgreSQL/Redis backend, run `pnpm setup:env`, `docker compose -f infra/docker-compose.dev.yml up -d`, `pnpm db:migrate`, `pnpm db:seed`, then `pnpm dev`. Full instructions, demo accounts and the golden-path script are in [docs/MVP_DEMO.md](docs/MVP_DEMO.md). Setup never replaces an existing `.env`.
+
+The MVP uses manual task selection, seeded price guides, text negotiation, timed offers, DB-protected holds, both-party confirmations, job steps, DEMO cash completion and reviews. It polls every three seconds. Live AI/voice, uploads, advanced retrieval and production hardening remain deferred under BUILD_PLAN.md §21.
 
 ## Seeded & mocked
 
-Implemented mocks: phone authentication returns a visibly labelled DEMO code in the browser, without sending SMS; seventeen explicitly labelled AI text fixtures; fake STT transcripts; and deterministic nonsemantic embedding vectors. Runtime results carry demo/mode metadata. No users, jobs or prices have been seeded into a database yet. Planned mocks still include payment, arrival-code checking, ETAs and simulated responders; they must be visibly labelled when built. No identity verification is planned.
+Browser mode is a local simulation: eight seeded worker profiles, four areas, eight sample rate cards, mock sign-in and browser storage. Its banner clearly identifies it as DEMO. It makes no provider calls or payments and is not a PostgreSQL concurrency demonstration.
+
+Server mode includes a seed script for four areas, eight trades/rate cards and three marked demo workers; the script has not been run against a live database here. Authentication displays a DEMO code without SMS. Arrival codes and cash payments are DEMO features. Seventeen AI text fixtures, sample STT transcripts and deterministic nonsemantic embedding vectors exist, but the MVP does not rely on them for decisions. No identity verification is claimed.
 
 ## AI services and models used
 
@@ -54,4 +59,4 @@ AI interfaces and fake/off runtime behavior are implemented, but no external AI 
 
 ## Measured and limitations
 
-The foundation test suite has 56 passing cases. Workspace typechecks and builds passed using integrity-checked cached packages; this was not a normal pnpm installation. Registry DNS prevented full installation and lint, local HTTP binding was denied, and Docker daemon access was denied. No application-flow tests, provider measurements or device rehearsals have run. The referenced design-spec and problem-statement PDFs are not present. See HANDOFF.md for recovery and next steps.
+77 native tests pass, including the browser-simulation golden path through reviews. Workspace builds pass using cached dependencies; a normal install/lockfile/lint remain pending. The HTML export's script is syntax-checked. This environment cannot bind local servers, access Docker or connect a browser, so visual/device and real PostgreSQL/Redis acceptance remain unverified. No external provider calls or live deployment have run. See HANDOFF.md for exact continuation.

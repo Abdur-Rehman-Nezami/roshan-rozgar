@@ -1,5 +1,6 @@
 import { API_CONTRACT, ErrorEnvelopeSchema } from "@roshan/shared";
 import type { ApiName, ApiRequest, ApiResponse, ErrorCode } from "@roshan/shared";
+import { browserDemoEnabled, DemoFailure, getBrowserDemo } from "../demo/store.ts";
 
 export class ApiError extends Error {
   readonly code: ErrorCode | "NETWORK" | "BAD_RESPONSE";
@@ -34,6 +35,40 @@ export class ApiClient {
     const contract = API_CONTRACT[name];
     if (!("response" in contract) || "upload" in contract)
       throw new Error("Use the audio upload/playback client for this operation");
+    if (browserDemoEnabled()) {
+      options.signal?.throwIfAborted();
+      const demo = getBrowserDemo();
+      const body = "body" in contract ? contract.body.parse(options.body ?? {}) : undefined;
+      try {
+        const payload: unknown =
+          name === "me"
+            ? demo.me()
+            : name === "otpStart"
+              ? demo.start(body)
+              : name === "otpVerify"
+                ? demo.verify(body)
+                : name === "mvpState"
+                  ? demo.state(options.query?.requestId?.toString())
+                  : name === "mvpCommand"
+                    ? demo.command(body)
+                    : undefined;
+        if (payload === undefined)
+          throw new ApiError(
+            "AI_UNAVAILABLE",
+            "This operation is unavailable in browser DEMO",
+            503,
+            false,
+          );
+        const parsed = contract.response.safeParse(payload);
+        if (!parsed.success)
+          throw new ApiError("BAD_RESPONSE", "Invalid browser demo response", 500, false);
+        return parsed.data as ApiResponse<N>;
+      } catch (error) {
+        if (error instanceof DemoFailure)
+          throw new ApiError(error.code as ErrorCode, error.message, error.status, false);
+        throw error;
+      }
+    }
     const path = contract.path.replace(/:([a-zA-Z]+)/g, (_, key: string) => {
       const value = options.params?.[key];
       if (!value || value === "." || value === "..")

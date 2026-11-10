@@ -3,6 +3,7 @@
 .env.*
 !.env.example
 .aws/
+.aws
 
 # Local tool state and planning recovery artifacts
 .planning-git/
@@ -19,3 +20,7 @@ playwright-report/
 test-results/
 *.log
 .DS_Store
+
+# Generated standalone MVP artifact (rebuild with pnpm demo:export)
+roshan-rozgar-demo.html
+roshan-rozgar-mvp.zip

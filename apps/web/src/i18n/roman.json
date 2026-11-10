@@ -159,6 +159,11 @@
     "customerConfirmed": "Gahak ne tasdeeq ki",
     "workerConfirmed": "Karigar ne tasdeeq ki",
     "backHome": "Dashboard",
-    "view": "Dekhein"
+    "view": "Dekhein",
+    "tryDemo": "Abhi demo azmayein",
+    "browserDemo": "Browser DEMO · isi device par data · live AI ya adaigi nahi",
+    "resetDemo": "Demo reset karein",
+    "useServer": "Server mode istemal karein",
+    "demoWorker": "DEMO karigar chunein"
   }
 }

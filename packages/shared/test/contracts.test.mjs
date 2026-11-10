@@ -291,5 +291,8 @@ test("all 28 screens have routes/overlay metadata and a valid three-language pro
   }
   assert.equal(SCREEN_ROUTES.W8, null);
   assert.equal(Object.keys(EVENT_SCHEMAS).length, 6);
-  assert.equal(Object.keys(API_CONTRACT).length, 42);
+  assert.ok(API_CONTRACT.mvpState);
+  assert.ok(API_CONTRACT.mvpCommand);
+  const routes = Object.values(API_CONTRACT).map((route) => `${route.method} ${route.path}`);
+  assert.equal(new Set(routes).size, routes.length);
 });

@@ -444,3 +444,27 @@ h1:focus {
     grid-template-columns: 1fr;
   }
 }
+.demo-launch {
+  padding: 1rem;
+  margin-block: 1.5rem;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--primary) 5%, var(--bg));
+}
+.browser-demo-banner {
+  padding: 0.8rem 1.25rem;
+  background: #fff7ed;
+  color: #7c2d12;
+  border-block-end: 1px solid #fed7aa;
+}
+.demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-block-start: 0.5rem;
+}
+.demo-actions button {
+  min-block-size: 48px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+}
