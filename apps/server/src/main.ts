@@ -1,36 +1,52 @@
 import { createServer } from "node:http";
-import { serviceInfo } from "./index.ts";
+import { loadConfig } from "./config.ts";
+import { createServices } from "./services.ts";
+import { checkReadiness } from "./readiness.ts";
+import { readAiMode } from "./ai/runtime.ts";
+import { createHttpHandler } from "./http/app.ts";
+import { createSocketAuthorization } from "./realtime/authorization.ts";
+import { attachSockets } from "./realtime/server.ts";
 
-const port = Number(process.env.PORT ?? "8080");
-if (!Number.isInteger(port) || port < 1 || port > 65535)
-  throw new Error("PORT must be between 1 and 65535");
-
-// Foundation-only listener. F-05 replaces this entry's HTTP wiring with Fastify,
-// authenticated routes, database readiness, sockets and service connections.
-const server = createServer((request, response) => {
-  response.setHeader("Content-Type", "application/json; charset=utf-8");
-  response.setHeader("X-Content-Type-Options", "nosniff");
-  if (request.method === "GET" && request.url === "/healthz") {
-    response.end(JSON.stringify({ ok: true, ...serviceInfo }));
-  } else if (request.method === "GET" && request.url === "/readyz") {
-    response.statusCode = 503;
-    response.end(JSON.stringify({ ok: false, database: "not connected", redis: "not connected" }));
-  } else {
-    response.statusCode = 404;
-    response.end(
-      JSON.stringify({
-        error: { code: "NOT_FOUND", message: "Route not found", retryable: false },
-      }),
-    );
-  }
+const config = loadConfig();
+const services = createServices(config, (event) => console.error(JSON.stringify({ event })));
+const handler = createHttpHandler({
+  readiness: async () =>
+    checkReadiness(
+      { database: () => services.database.query("SELECT 1"), redis: () => services.redis.ping() },
+      await readAiMode(config.AI_MODE, services.redis),
+    ),
 });
-server.on("error", (error) => {
-  console.error("HTTP server failed:", error.message);
+const server = createServer({ requestTimeout: 15_000, headersTimeout: 10_000 }, handler);
+const io = attachSockets(server, config, createSocketAuthorization(services.database, config));
+let closing: Promise<void> | undefined;
+function close() {
+  closing ??= (async () => {
+    const force = setTimeout(() => server.closeAllConnections(), 10_000);
+    force.unref();
+    try {
+      await new Promise<void>((resolve) => io.close(() => resolve()));
+      await services.close();
+    } finally {
+      clearTimeout(force);
+    }
+  })();
+  return closing;
+}
+server.on("error", () => {
+  console.error(JSON.stringify({ event: "http_server_failed" }));
   process.exitCode = 1;
+  void close().catch(() => {
+    console.error(JSON.stringify({ event: "http_shutdown_failed" }));
+  });
 });
-server.listen(port, process.env.HOST ?? "127.0.0.1", () => {
-  console.info(`Foundation server listening on port ${port}; service readiness is pending F-05.`);
+server.listen(config.PORT, config.HOST, () => {
+  console.info(JSON.stringify({ event: "http_started", port: config.PORT, fastify: false }));
 });
 for (const signal of ["SIGINT", "SIGTERM"] as const) {
-  process.once(signal, () => server.close());
+  process.once(signal, () => {
+    void close().catch(() => {
+      console.error(JSON.stringify({ event: "http_shutdown_failed" }));
+      process.exitCode = 1;
+    });
+  });
 }

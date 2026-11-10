@@ -24,7 +24,7 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 
 - F-04: initial eighteen-table SQL migration, Drizzle mirror, indexes/range/amount checks and transactional checksum/advisory-lock migration runner implemented. Eight migration tests pass (26 total). Live PG17/vector migration and Drizzle import remain blocked. See docs/verification/F-04.md.
 
-- F-05 partial: config, JOSE session/cookie/role helpers, readiness and Redis-independent database sweeper/scheduler. Nine new tests pass (35 total), server typecheck passes. Full HTTP/socket/queue wiring is pending; main/jobs remain scaffolding. See docs/verification/F-05.md.
+- F-05 partial: config, JOSE session/cookie/role helpers, readiness and Redis-independent database sweeper/scheduler. Nine new tests pass (35 total), server typecheck passes. PG/Redis connections, readiness, cookie-authenticated Socket.IO rooms and the real jobs sweeper are now wired; HTTP remains a temporary Node transport. Fastify/plugins/Redis adapter/queues are pending. See docs/verification/F-05.md.
 
 - F-06 partial: React Router screen placeholders, localized shell/preferences/captions/back/offline status, welcome/role steps, Tailwind4, typed API client and disconnected Socket.IO client. Eight new API tests (43 total); workspace typecheck/build pass. Query provider/fonts/browser acceptance remain open. See docs/verification/F-06.md.
 
@@ -32,7 +32,7 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 
 ## Exact next work
 
-**Next critical work is real F-05 server integration**, followed by finishing F-06/F-07 wiring and the tap-only core flow. Install Fastify5, its cookie/static/helmet/rate-limit/multipart plugins, Pino, Socket.IO/Redis adapter, BullMQ and ioredis in an environment with registry access. Replace the F-02 main/jobs scaffolding with real database/Redis connections, auth/error plugins, socket rooms and queues. Wire the tested session/readiness/sweeper helpers and AI runtime; never expose a successful readiness response for unavailable dependencies. Continue independent code work if an external check remains blocked, as the user requested.
+**Next critical work is real F-05 server integration**, followed by finishing F-06/F-07 wiring and the tap-only core flow. Install Fastify5, its cookie/static/helmet/rate-limit/multipart plugins, Pino, Socket.IO Redis adapter and BullMQ in an environment with registry access. PG/Redis connections, readiness, socket authorization and the jobs sweeper have now been wired. Replace the temporary Node HTTP transport with Fastify, add its plugins/Redis socket adapter/BullMQ consumers, and wire AI runtime and auth routes. Next independent slice: implement A-01 demo OTP/current-user service and controller, then its tap UI. Never expose successful readiness for unavailable dependencies. Continue independent code work if an external check remains blocked, as the user requested.
 
 Still open: normal `pnpm install` and committed lockfile/ESLint (F-01); full development startup (F-02); PG17/pgvector migration and Drizzle runtime validation (F-04); full backend integration (F-05); TanStack Query/Zustand setup, self-hosted fonts and browser checks (F-06); real AI/cache/audit HTTP bindings and live SDK adapters (F-07); credentials/device smoke tests (F-08). No phase is complete. Only F-03 has met its task acceptance checks in the cached validation scope.
 
@@ -46,8 +46,8 @@ Checkpoints: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`, F-0
 - For cached checks only, invoke pinned pnpm with `--config.verify-deps-before-run=false`; otherwise it attempts installation. This flag is not committed to workspace configuration.
 - Use Node native tests with `--test-isolation=none` in this sandbox, so assertions run in the current process and results report individual cases. Vitest/Playwright integration remains future work.
 - Compose configuration validation works, but Docker daemon socket access is denied. Local HTTP binding is denied (`listen EPERM`). No development servers or jobs are running.
-- Shared/server/web typechecks and builds pass against cached packages. Current tests: 4 supervisor, 14 contracts, 8 migration-runner, 9 backend foundation, 8 API-client and 13 AI cases (56 total). The current workspace uses 69 integrity-checked cached packages; these are not a normal installation.
-- The latest full test suite passes 56/56 cases; workspace builds/asset copying, formatting, Compose config and continuation-file checks pass. A compiled AI runtime fixture smoke check passes.
+- Shared/server/web typechecks and builds pass against cached packages. Current tests: 4 supervisor, 14 contracts, 8 migration-runner, 15 backend/security/realtime, 8 API-client and 13 AI cases (62 total). The current workspace uses 90 integrity-checked cached packages (plus the required nested Engine.IO cookie0.7.2); these are not a normal installation.
+- The latest full test suite passes 62/62 cases; workspace builds/asset copying, formatting, Compose config and continuation-file checks pass. A compiled AI runtime fixture smoke check passes.
 - No live migrations, provider API calls, deployment, browser or device rehearsals have run. Local PG18 initialization succeeded, but server startup failed on its Unix socket; it is stopped. Build outputs and temporary test data are ignored.
 
 ## Missing inputs

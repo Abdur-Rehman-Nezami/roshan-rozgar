@@ -1,11 +1,39 @@
 import { SWEEPER_INTERVAL_MS } from "@roshan/shared";
+import { loadConfig } from "./config.ts";
+import { createDatabase } from "./services.ts";
+import { startSweeper, sweepExpired } from "./db/sweeper.ts";
 
-// Queue registration and the database sweeper are supplied by F-05.
-// Keep a watchable process now, with an explicit statement of its capabilities.
-console.info(
-  "Jobs foundation running. Queue consumers and database sweeper are not registered yet.",
+const config = loadConfig();
+// The correctness backup intentionally creates no Redis connection.
+const database = createDatabase(config, (event) => console.error(JSON.stringify({ event })));
+const stop = startSweeper(
+  async () => {
+    const result = await sweepExpired(database);
+    if (result.offers.length || result.holds.length)
+      console.info(
+        JSON.stringify({
+          event: "expiry_sweep",
+          offers: result.offers.length,
+          holds: result.holds.length,
+        }),
+      );
+  },
+  () => console.error(JSON.stringify({ event: "expiry_sweep_failed" })),
+  SWEEPER_INTERVAL_MS,
 );
-const heartbeat = setInterval(() => {}, SWEEPER_INTERVAL_MS);
+console.info(
+  JSON.stringify({ event: "jobs_started", sweeper: true, queueConsumers: false, realtime: false }),
+);
+let closing = false;
 for (const signal of ["SIGINT", "SIGTERM"] as const) {
-  process.once(signal, () => clearInterval(heartbeat));
+  process.once(signal, () => {
+    if (closing) return;
+    closing = true;
+    void stop()
+      .then(() => database.end())
+      .catch(() => {
+        console.error(JSON.stringify({ event: "jobs_shutdown_failed" }));
+        process.exitCode = 1;
+      });
+  });
 }
