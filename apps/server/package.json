@@ -10,7 +10,9 @@
   "dependencies": {
     "@roshan/shared": "workspace:*",
     "pg": "8.21.0",
-    "drizzle-orm": "^0.45.3"
+    "drizzle-orm": "^0.45.3",
+    "jose": "6.2.3",
+    "zod": "3.25.75"
   },
   "devDependencies": {
     "@types/pg": "8.20.0"

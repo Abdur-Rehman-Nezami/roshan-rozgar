@@ -17,7 +17,7 @@
     "dev": "node scripts/dev.mjs",
     "db:migrate": "node scripts/run-task.mjs db:migrate",
     "db:seed": "node scripts/run-task.mjs db:seed",
-    "test": "node --conditions=development --test --test-isolation=none scripts/test/*.test.mjs packages/shared/test/*.test.mjs",
+    "test": "node --conditions=development --test --test-isolation=none scripts/test/*.test.mjs packages/shared/test/*.test.mjs apps/server/test/*.test.mjs",
     "e2e": "node scripts/run-task.mjs e2e",
     "audio:build": "node scripts/run-task.mjs audio:build",
     "eval:triage": "node scripts/run-task.mjs eval:triage"

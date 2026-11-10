@@ -7,7 +7,7 @@ Updated: 2026-11-10 (Asia/Karachi).
 - Scope: **application implementation authorized**, starting at Phase 0 / F-01.
 - Application phases complete: **0 of 6**. Application backlog tasks complete: **1 of 44**.
 - Current instruction: continue implementation and local commits; leave GitHub aside. Pending environment checks do not stop independent coding.
-- Active implementation task: **F-05 — backend foundation next**. F-01/F-02/F-04 external gates remain open.
+- Active implementation task: **F-06 — frontend shell next**, independent of F-05 integration. External gates and unfinished F-05 integration remain open.
 - Planning deliverables: original BUILD_PLAN.md preserved, phase breakdown in README.md, this task ledger, HANDOFF.md with a resume prompt, and AGENTS.md/CLAUDE.md with progress and commit rules.
 - Repository: `Abdur-Rehman-Nezami/roshan-rozgar`; checkpoint branch: `main`.
 - Publication: **BLOCKED**. Shell GitHub access failed DNS resolution. The GitHub connector read the empty repository but rejected file creation with HTTP 403, `Resource not accessible by integration`. No remote commit was created.
@@ -40,7 +40,7 @@ See BUILD_PLAN.md §18.2 for the full dependency list, owned files and each task
 | F-02 | Dev Compose and root development/database/test/audio/evaluation scripts             | BLOCKED     | Implementation saved: dev supervisor, web/server/jobs entrypoints and task commands. Four lifecycle tests pass; Compose config and server typecheck pass. Full startup blocked by environment.                         |
 | F-03 | Shared entity/API/event/AI schemas, screen/action/prompt IDs and errors             | DONE        | Entity schemas/types, 42 API operations, 6 socket events, 17 AI outputs, 28 screens and prompt/lexicon contracts. 14 contract tests plus 4 supervisor tests pass; workspace typecheck/build pass with cached packages. |
 | F-04 | Drizzle schema, SQL extensions, exclusion constraint, indexes and distance function | BLOCKED     | 18-table SQL migration, Drizzle mirror and checksum/transaction migration runner implemented. 8 migration tests pass (26 total). Live PG17/vector and Drizzle runtime checks pending.                                  |
-| F-05 | Server, auth skeleton, readiness, sockets, Redis/BullMQ and sweeper                 | NOT_STARTED | —                                                                                                                                                                                                                      |
+| F-05 | Server, auth skeleton, readiness, sockets, Redis/BullMQ and sweeper                 | IN_PROGRESS | Tested config/session/cookie/role/readiness/sweeper foundations implemented. 9 new tests (35 total). Fastify/plugins/sockets/queues and actual wiring remain pending.                                                  |
 | F-06 | Web skeleton, routes, shell, i18n/RTL, fonts and API/socket clients                 | NOT_STARTED | —                                                                                                                                                                                                                      |
 | F-07 | AI interfaces, runtime modes, fixtures, logging and cache                           | NOT_STARTED | —                                                                                                                                                                                                                      |
 | F-08 | Live provider smoke tests and documented GO/NO-GO decisions                         | NOT_STARTED | Keys and device/audio tests required later                                                                                                                                                                             |
@@ -127,3 +127,9 @@ For future checkpoints append date, task/phase, commit ID from the previous comm
 - PASS: 26 foundation tests (8 migration-runner cases), migration loader/checksum, mirror syntax check. The missing DATABASE_URL guard fails with an actionable message and no credentials in logs.
 - BLOCKED: Docker daemon; local PostgreSQL18 cannot bind even a Unix socket and lacks vector; Drizzle dependency unavailable offline. No live migration or double-booking integration test has run. See docs/verification/F-04.md.
 - Previous checkpoint: `68b9784` (F-03). No GitHub operations attempted.
+
+### F-05 backend foundation checkpoint
+
+- Added validated environment config, JOSE sessions/cookie helpers/role guard, dependency readiness helper and Redis-independent DB sweeper/scheduler.
+- PASS: 9 new backend tests (35 total) and server typecheck with cached packages. Dependencies now include JOSE6.2.3; 41 cached packages are available locally.
+- Full HTTP/auth/socket/queue integration is pending; no working backend routes are claimed. See docs/verification/F-05.md. Previous checkpoint: `bdff3e3` (F-04).

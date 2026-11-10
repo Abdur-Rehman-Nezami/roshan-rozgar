@@ -24,11 +24,15 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 
 - F-04: initial eighteen-table SQL migration, Drizzle mirror, indexes/range/amount checks and transactional checksum/advisory-lock migration runner implemented. Eight migration tests pass (26 total). Live PG17/vector migration and Drizzle import remain blocked. See docs/verification/F-04.md.
 
+- F-05 partial: config, JOSE session/cookie/role helpers, readiness and Redis-independent database sweeper/scheduler. Nine new tests pass (35 total), server typecheck passes. Full HTTP/socket/queue wiring is pending; main/jobs remain scaffolding. See docs/verification/F-05.md.
+
 ## Exact next work
 
-Implement **F-05 backend foundation**. Start with validated environment/session configuration and the Redis-independent database sweeper; then integrate Fastify, cookie auth, error/redaction plugins, Redis/BullMQ and authenticated Socket.IO when dependencies can be installed. Fastify/BullMQ/pino are absent from the cache; do not invent successful imports or full readiness. Existing Node HTTP/jobs entries remain explicitly scaffolded until replacement.
+Implement **F-06 frontend shell** using the existing shared screen/route/prompt registry, localized captions/back/help controls, planned route placeholders, API client and query/socket providers. Keep unfinished features visibly unavailable. React Router, TanStack Query, Socket.IO client and Tailwind exist in the cache. Self-hosted fonts and browser QA may require a normal environment. Continue F-07 fake/off AI interfaces after this independent UI work.
 
-F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates remain open. Continue independent code work per user instruction. F-03 is accepted against cached package checks. Earlier commits: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`; use Git log for the latest checkpoint. No phase is complete.
+F-05 still needs Fastify/auth/error/redaction/rate-limit/static plugins, Socket.IO rooms/adapter, BullMQ and real server/jobs integration. Dependencies are unavailable offline; helpers are tested but not wired.
+
+F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates remain open. Continue independent code work per user instruction. F-03 is accepted against cached package checks. Earlier commits: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`; use Git log for the latest checkpoint. No phase is complete.
 
 ## Environment and validation limits
 
