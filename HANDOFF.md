@@ -4,7 +4,7 @@ Updated: 2026-11-10 (Asia/Karachi).
 
 ## Current instruction and status
 
-The user explicitly asked to **leave GitHub for now, keep implementing and committing locally, and provide push commands**. Do not retry GitHub. Continue implementation in task order even when environment-only checks on earlier tasks are blocked; keep those checks open. No phase is complete.
+The user explicitly asked to **leave GitHub for now, keep implementing and committing locally, and provide push commands**. Do not retry GitHub. Continue implementation in task order even when environment-only checks on earlier tasks are blocked; keep those checks open. No phase is complete. Phase 1 has begun with A-01 authentication and B-02 tap onboarding, while Foundation gates remain open.
 
 Repository: https://github.com/Abdur-Rehman-Nezami/roshan-rozgar.git. Local branch: `main`. Git metadata: `.planning-git` (the root `.git` is a read-only environment mount). Use:
 
@@ -36,7 +36,7 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 
 Still open: normal `pnpm install` and committed lockfile/ESLint (F-01); full development startup (F-02); PG17/pgvector migration and Drizzle runtime validation (F-04); full backend integration (F-05); TanStack Query/Zustand setup, self-hosted fonts and browser checks (F-06); real AI/cache/audit HTTP bindings and live SDK adapters (F-07); credentials/device smoke tests (F-08). No phase is complete. Only F-03 has met its task acceptance checks in the cached validation scope.
 
-Checkpoints: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`, F-05 partial `3cefe2d`, F-06 partial `d275a9e`, AI `2b31af2`, server/realtime `da2e066`. Use the local log for the latest AI/session checkpoint. Do not restart these implementations or overwrite their history.
+Checkpoints: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`, F-05 partial `3cefe2d`, F-06 partial `d275a9e`, AI `2b31af2`, server/realtime `da2e066`, authentication `5d51004`. Use the local log for the latest AI/session checkpoint. Do not restart these implementations or overwrite their history.
 
 ## Environment and validation limits
 
@@ -67,3 +67,7 @@ Update progress/handoff with exact commands/results at each checkpoint, make
 small local task commits and a separate commit for every truly completed
 phase, and refresh the bundle. Never commit secrets or invent passed checks.
 ```
+
+## Latest offline dependency audit
+
+All cached tarballs were integrity checked, but that does not establish a valid pnpm resolution. A post-build audit found the cached root Lightning CSS1.33.0 does not match @tailwindcss/node's exact1.32.0 dependency. The Vite build passes with this temporary cache, but a normal locked install is still required. Parser-package export manifests also prevented the simple audit from determining their versions; those audit entries are inconclusive, not established runtime failures. Do not copy this temporary node_modules tree as a reproducible install.
