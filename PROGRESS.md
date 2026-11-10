@@ -89,7 +89,7 @@ See BUILD_PLAN.md §18.2 for the full dependency list, owned files and each task
 | GitHub repository read | PASS | Connector reports public repository, default branch main; contents API confirms empty before setup |
 | Shell remote access | BLOCKED | `git ls-remote …` → `Could not resolve host: github.com` |
 | GitHub connector write | BLOCKED | `create_file` for BUILD_PLAN.md → HTTP 403 `Resource not accessible by integration`; no commit created |
-| Local checkpoint and portable bundle | See checkpoint history | Verify commit contents and bundle before transfer; exact commands in HANDOFF.md |
+| Local checkpoint and portable bundle | PASS | `7c4b587` created; `git --git-dir=.planning-git bundle verify roshan-rozgar-planning.bundle` passed; fresh temporary clone recovered all seven files byte-for-byte with a clean working tree |
 | Application typecheck/tests/build/migration/e2e | NOT_RUN | No application code or dependencies; this session is planning only |
 | Live AI, deployment and device rehearsals | NOT_RUN | No integrations, keys, deployment or device sessions |
 
@@ -97,6 +97,6 @@ See BUILD_PLAN.md §18.2 for the full dependency list, owned files and each task
 
 | Date | Checkpoint | Outcome |
 |---|---|---|
-| 2026-11-10 | `docs(plan): add phase ledger and cross-model handoff` | Planning files and original plan committed locally on main; portable bundle prepared. Remote publication blocked by DNS and connector write permission. No application phase completed. Use the local Git log or bundle to obtain the commit ID. |
+| 2026-11-10 | `7c4b587` — `docs(plan): add phase ledger and cross-model handoff` | Planning files and original plan committed locally on main; portable bundle verified and recovered into a normal checkout with identical files. Remote publication blocked by DNS and connector write permission. No application phase completed. |
 
 For future checkpoints append date, task/phase, commit ID from the previous committed checkpoint, validation results, branch and push status. Phase completion evidence must state which gates passed, not just that files exist.

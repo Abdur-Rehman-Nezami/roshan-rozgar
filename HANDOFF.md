@@ -14,6 +14,8 @@ Branch: `main` for the local planning checkpoint. **GitHub publication is blocke
 
 The current workspace has no usable root `.git`. The local checkpoint uses separate metadata in `.planning-git`; do not edit the environment's protected `.git` mount. A portable bundle, `roshan-rozgar-planning.bundle`, contains the committed planning files and history. Transfer that bundle to the next machine/account if GitHub publication has not been completed. Local files alone are not automatically accessible to another account.
 
+Initial planning commit: `7c4b587` (`docs(plan): add phase ledger and cross-model handoff`). Bundle verification and recovery into a fresh standard checkout passed; all seven tracked files matched byte-for-byte and the recovered working tree was clean. A subsequent documentation checkpoint records these results; obtain the latest hash from the Git log or bundle rather than treating the initial hash as the latest head.
+
 In this workspace, inspect the saved checkpoint using:
 
 ```bash
