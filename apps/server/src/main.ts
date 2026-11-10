@@ -6,10 +6,26 @@ import { readAiMode } from "./ai/runtime.ts";
 import { createHttpHandler } from "./http/app.ts";
 import { createSocketAuthorization } from "./realtime/authorization.ts";
 import { attachSockets } from "./realtime/server.ts";
+import { createAuthService } from "./auth/otp.ts";
+import { createRedisOtpStore } from "./auth/redis-otp.ts";
+import { createIdentityRepository } from "./db/identities.ts";
+import { createAuthController } from "./auth/controller.ts";
+import { createRedisRateLimiter } from "./http/rate-limit.ts";
 
 const config = loadConfig();
 const services = createServices(config, (event) => console.error(JSON.stringify({ event })));
 const handler = createHttpHandler({
+  publicUrl: config.PUBLIC_URL,
+  auth: createAuthController(
+    createAuthService({
+      store: createRedisOtpStore(services.redis),
+      identities: createIdentityRepository(services.database),
+      secret: config.SESSION_SECRET,
+      secure: config.NODE_ENV === "production",
+    }),
+    createRedisRateLimiter(services.redis, config.SESSION_SECRET),
+    config.NODE_ENV === "production",
+  ),
   readiness: async () =>
     checkReadiness(
       { database: () => services.database.query("SELECT 1"), redis: () => services.redis.ping() },

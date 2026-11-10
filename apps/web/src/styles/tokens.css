@@ -255,3 +255,40 @@ select:focus-visible {
 h1:focus {
   outline: none;
 }
+
+.sign-in-form {
+  display: grid;
+  gap: 0.75rem;
+}
+.sign-in-form input {
+  min-block-size: var(--btn);
+  inline-size: 100%;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  color: var(--text);
+  background: var(--bg);
+  font: inherit;
+  font-size: 1.25rem;
+}
+.sign-in-form input:focus-visible {
+  outline: 4px solid var(--accent);
+  outline-offset: 4px;
+}
+.sign-in-form p {
+  margin-block: 0;
+}
+.demo-code {
+  padding: 1rem;
+  background: var(--surface);
+  border-inline-start: 4px solid var(--warning);
+}
+.demo-code strong {
+  display: inline-block;
+  margin-inline-start: 0.75rem;
+  font-size: 1.5rem;
+  letter-spacing: 0.15em;
+}
+.form-error {
+  color: var(--danger);
+}

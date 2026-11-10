@@ -1,7 +1,19 @@
 import { AuthError } from "../auth/session.ts";
 import { AiError } from "../ai/runtime.ts";
 import { ZodError } from "zod";
-import type { ErrorEnvelope } from "@roshan/shared";
+import type { ErrorCode, ErrorEnvelope } from "@roshan/shared";
+
+export class HttpError extends Error {
+  readonly status: number;
+  readonly code: ErrorCode;
+  readonly retryable: boolean;
+  constructor(status: number, code: ErrorCode, message: string, retryable = false) {
+    super(message);
+    this.status = status;
+    this.code = code;
+    this.retryable = retryable;
+  }
+}
 
 /** Shared by REST mutations and Engine.IO handshakes, including WebSocket upgrades. */
 export function isAllowedOrigin(
@@ -14,6 +26,11 @@ export function isAllowedOrigin(
 }
 
 export function publicError(error: unknown): { status: number; body: ErrorEnvelope } {
+  if (error instanceof HttpError)
+    return {
+      status: error.status,
+      body: { error: { code: error.code, message: error.message, retryable: error.retryable } },
+    };
   if (error instanceof AuthError)
     return {
       status: error.statusCode,

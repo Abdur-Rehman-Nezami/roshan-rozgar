@@ -4,6 +4,7 @@ import type { ScreenId } from "@roshan/shared";
 import { AppShell } from "./app/AppShell.tsx";
 import { PreferencesProvider, usePreferences } from "./app/preferences.tsx";
 import { Welcome } from "./app/Welcome.tsx";
+import { MicrophoneStep, SignIn } from "./app/SignIn.tsx";
 
 function Placeholder({ screen }: { screen: ScreenId }) {
   const { t } = usePreferences();
@@ -36,15 +37,19 @@ export function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Welcome />} />
-          {SCREEN_IDS.filter((screen) => screen !== "W0" && SCREEN_ROUTES[screen] !== null).map(
-            (screen) => (
-              <Route
-                key={screen}
-                path={SCREEN_ROUTES[screen] as string}
-                element={<Placeholder screen={screen} />}
-              />
-            ),
-          )}
+          <Route path="/w/mic" element={<MicrophoneStep />} />
+          <Route path="/w/phone" element={<SignIn key="worker" role="worker" />} />
+          <Route path="/c/signup" element={<SignIn key="customer" role="customer" />} />
+          {SCREEN_IDS.filter(
+            (screen) =>
+              !["W0", "W1", "W2", "C1"].includes(screen) && SCREEN_ROUTES[screen] !== null,
+          ).map((screen) => (
+            <Route
+              key={screen}
+              path={SCREEN_ROUTES[screen] as string}
+              element={<Placeholder screen={screen} />}
+            />
+          ))}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

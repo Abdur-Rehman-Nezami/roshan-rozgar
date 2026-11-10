@@ -46,5 +46,27 @@
     "C11": "My bookings",
     "C12": "Settings and help",
     "D1": "Demo controls"
+  },
+  "auth": {
+    "phone": "Mobile number",
+    "phoneHint": "Use a Pakistani mobile number, such as 03XX XXXXXXX.",
+    "sendCode": "Get demo code",
+    "code": "Six-digit demo code",
+    "demo": "DEMO: No SMS is sent. This code is shown here for testing.",
+    "expires": "The code expires after five minutes and can be used once.",
+    "verify": "Confirm and sign in",
+    "changePhone": "Use another number",
+    "resend": "Get a new code",
+    "busy": "Please wait…",
+    "checking": "Checking your session…",
+    "signedIn": "You are signed in.",
+    "continue": "Continue",
+    "invalidPhone": "Enter a valid Pakistani mobile number.",
+    "invalidCode": "Enter all six digits of the demo code.",
+    "rejected": "The code is incorrect, expired or already used. Request a new code.",
+    "roleConflict": "This number belongs to another role. Choose that role or use another number.",
+    "limited": "Too many attempts. Wait one minute and try again.",
+    "unavailable": "Sign-in is unavailable. Check your connection and try again.",
+    "otherSession": "You are signed in with another role. Use a different number to sign in here."
   }
 }

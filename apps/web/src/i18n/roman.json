@@ -46,5 +46,27 @@
     "C11": "Meri booking",
     "C12": "Tarteebaat aur madad",
     "D1": "Namoona control"
+  },
+  "auth": {
+    "phone": "Mobile number",
+    "phoneHint": "Pakistani mobile number likhein, jaise 03XX XXXXXXX.",
+    "sendCode": "Demo code lein",
+    "code": "Chhe hindson ka demo code",
+    "demo": "DEMO: SMS nahi bheja jata. Yeh code sirf azmaish ke liye yahan dikhaya gaya hai.",
+    "expires": "Code paanch minute tak chalega aur sirf aik baar istemal hoga.",
+    "verify": "Tasdeeq karke dakhil hon",
+    "changePhone": "Doosra number dein",
+    "resend": "Naya code lein",
+    "busy": "Zara intezar karein…",
+    "checking": "Aap ka session dekha ja raha hai…",
+    "signedIn": "Aap dakhil ho gaye hain.",
+    "continue": "Aage chalein",
+    "invalidPhone": "Sahi Pakistani mobile number dein.",
+    "invalidCode": "Demo code ke poore chhe hindse dein.",
+    "rejected": "Code ghalat hai, waqt khatam ho gaya ya istemal ho chuka hai. Naya code lein.",
+    "roleConflict": "Yeh number doosre kirdar ke liye hai. Woh kirdar chunein ya doosra number dein.",
+    "limited": "Bohat koshishein ho gayi hain. Aik minute baad dobara karein.",
+    "unavailable": "Dakhil nahi ho sake. Connection dekh kar dobara koshish karein.",
+    "otherSession": "Aap doosre kirdar se dakhil hain. Yahan doosra number istemal karein."
   }
 }

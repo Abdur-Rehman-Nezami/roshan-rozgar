@@ -40,13 +40,13 @@ corepack pnpm -r typecheck
 corepack pnpm --filter @roshan/web dev
 ```
 
-Open the Vite URL to see the welcome/language/role flow and planned screen placeholders. The full worker/customer flow is not implemented. `pnpm dev` supervises web, foundation server and jobs processes; the current server provides liveness only and reports not-ready. Auth/session/sweeper helpers are not wired into those processes yet.
+Open the Vite URL for the welcome/language/role flow and DEMO phone/code sign-in (`/w/phone` or `/c/signup`). Worker microphone setup has a tap-only continuation. Later profile/booking screens remain placeholders. `pnpm dev` supervises web, server and jobs. The server probes PostgreSQL/Redis readiness, exposes demo OTP and current-user routes, and attaches authenticated Socket.IO rooms; jobs run the database expiry sweeper. Fastify plugins, Redis socket fan-out and BullMQ consumers remain pending. Live startup and two-browser acceptance have not run in this restricted environment.
 
 Additional workspace commands: `pnpm -r build`, `pnpm lint`, `pnpm format:check`, `pnpm format`. A full installation and lint run are still pending, and `pnpm-lock.yaml` has not been generated. See [F-01 verification](docs/verification/F-01.md) for exact results and environment limitations. Development Compose and migration tooling now exist. See docs/verification/F-04.md before running database migrations. Seed/audio/e2e/evaluation commands fail explicitly until their owning tasks are implemented. Push instructions are in [docs/PUSH.md](docs/PUSH.md).
 
 ## Seeded & mocked
 
-Implemented mocks: seventeen explicitly labelled AI text fixtures, fake STT transcripts and deterministic nonsemantic embedding vectors. Runtime results carry demo/mode metadata. No users, jobs or prices have been seeded into a database yet. Planned mocks still include OTP, payment, arrival-code checking, ETAs and simulated responders; they must be visibly labelled when built. No identity verification is planned.
+Implemented mocks: phone authentication returns a visibly labelled DEMO code in the browser, without sending SMS; seventeen explicitly labelled AI text fixtures; fake STT transcripts; and deterministic nonsemantic embedding vectors. Runtime results carry demo/mode metadata. No users, jobs or prices have been seeded into a database yet. Planned mocks still include payment, arrival-code checking, ETAs and simulated responders; they must be visibly labelled when built. No identity verification is planned.
 
 ## AI services and models used
 
