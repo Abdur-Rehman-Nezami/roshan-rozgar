@@ -7,7 +7,7 @@ Updated: 2026-11-10 (Asia/Karachi).
 - Scope: **application implementation authorized**, starting at Phase 0 / F-01.
 - Application phases complete: **0 of 6**. Application backlog tasks complete: **1 of 44**.
 - Current instruction: continue implementation and local commits; leave GitHub aside. Pending environment checks do not stop independent coding.
-- Active implementation task: **F-07 — fake/off AI runtime next**. F-05 server integration and F-06 query/fonts/browser checks remain open.
+- Active implementation task: **finish F-05/F-06/F-07 integration**. F-08 live checks are blocked; source checkpoints are saved. See HANDOFF.md.
 - Planning deliverables: original BUILD_PLAN.md preserved, phase breakdown in README.md, this task ledger, HANDOFF.md with a resume prompt, and AGENTS.md/CLAUDE.md with progress and commit rules.
 - Repository: `Abdur-Rehman-Nezami/roshan-rozgar`; checkpoint branch: `main`.
 - Publication: **BLOCKED**. Shell GitHub access failed DNS resolution. The GitHub connector read the empty repository but rejected file creation with HTTP 403, `Resource not accessible by integration`. No remote commit was created.
@@ -42,8 +42,8 @@ See BUILD_PLAN.md §18.2 for the full dependency list, owned files and each task
 | F-04 | Drizzle schema, SQL extensions, exclusion constraint, indexes and distance function | BLOCKED     | 18-table SQL migration, Drizzle mirror and checksum/transaction migration runner implemented. 8 migration tests pass (26 total). Live PG17/vector and Drizzle runtime checks pending.                                  |
 | F-05 | Server, auth skeleton, readiness, sockets, Redis/BullMQ and sweeper                 | IN_PROGRESS | Tested config/session/cookie/role/readiness/sweeper foundations implemented. 9 new tests (35 total). Fastify/plugins/sockets/queues and actual wiring remain pending.                                                  |
 | F-06 | Web skeleton, routes, shell, i18n/RTL, fonts and API/socket clients                 | IN_PROGRESS | Localized routed shell, welcome/role steps, Tailwind and typed API/socket clients implemented. 8 API tests (43 total), typecheck/build pass. Query provider/fonts/browser verification pending.                        |
-| F-07 | AI interfaces, runtime modes, fixtures, logging and cache                           | NOT_STARTED | —                                                                                                                                                                                                                      |
-| F-08 | Live provider smoke tests and documented GO/NO-GO decisions                         | NOT_STARTED | Keys and device/audio tests required later                                                                                                                                                                             |
+| F-07 | AI interfaces, runtime modes, fixtures, logging and cache                           | IN_PROGRESS | 17 validated text fixtures, fake/off/live boundaries, cache/audit/mode adapters and speech/embed interfaces implemented. 13 AI tests (56 total). Real service/provider/HTTP wiring pending.                            |
+| F-08 | Live provider smoke tests and documented GO/NO-GO decisions                         | BLOCKED     | docs/ai-smoke.md records NOT_RUN. No credentials, live integration or device recordings; no provider GO or measured results claimed.                                                                                   |
 | A-01 | Demo OTP, cookie login, current user and role guards                                | NOT_STARTED | —                                                                                                                                                                                                                      |
 | A-02 | Worker profile, availability, slots, completeness and embedding jobs                | NOT_STARTED | —                                                                                                                                                                                                                      |
 | A-03 | Requests, ranked matches and address privacy                                        | NOT_STARTED | —                                                                                                                                                                                                                      |
@@ -139,3 +139,19 @@ For future checkpoints append date, task/phase, commit ID from the previous comm
 - Added React Router route placeholders, three-language dictionaries/preferences/RTL, persistent shell/captions/offline banner, three-step welcome/role selection, Tailwind4, typed fetch client and disconnected Socket.IO client.
 - PASS: 8 API-client tests (43 tests total), workspace typecheck/build with cached dependencies. All role pages visibly remain previews; audio is unavailable, not simulated as working.
 - Pending: TanStack Query/Zustand setup, self-hosted fonts and browser/RTL/device checks. Earlier handoff cache assumption corrected: TanStack Query and Zustand are not cached. See docs/verification/F-06.md. Previous checkpoint: `3cefe2d` (F-05 partial).
+
+### F-07 runtime and session checkpoint
+
+- Added 17 validated JSON text fixtures, required demo/mode metadata, mode-isolated caching, privacy-safe PostgreSQL audit/Redis TTL adapters, per-caller live allowance hook, STT upload/language boundary, fixture embeddings and honest unavailable TTS fallback.
+- PASS: 13 AI-runtime tests; total suite 56 cases. Source typechecks pass with cached dependencies. Server build copies runtime fixture and SQL assets.
+- Pending: real SDK/service/HTTP bindings, token usage and timeout/refusal integration, real audio. F-08 smoke report explicitly NOT_RUN; no provider measurement invented. See docs/verification/F-07.md and docs/ai-smoke.md. Previous checkpoint: `d275a9e` (F-06 partial).
+- GitHub remains deferred. Push all local commits using docs/PUSH.md; recovery bundle is refreshed after the final commit. No phase has met all exit checks.
+
+### Final verification for this implementation session
+
+- PASS: full native suite, **56/56 cases** (`pnpm test` equivalent with cached tools).
+- PASS: workspace builds (shared TypeScript, server TypeScript plus copied runtime assets, React/Vite production bundle) and source typechecks with cached dependencies.
+- PASS: Prettier check, Compose configuration validation, Git whitespace checks, original-plan SHA-256 and all 44 backlog IDs/continuation links.
+- PASS: compiled server AI runtime loads its copied fixture and returns explicit `mode: fake`, `demo: true` metadata.
+- NOT_RUN/BLOCKED: normal registry install/lockfile/ESLint, browser/device QA, live PG17/vector/Redis integration, Drizzle runtime import, providers and deployment. No golden-path success or full phase completion is claimed.
+- All work is committed locally; the recovery bundle is regenerated from the final head and verified by cloning it into a clean temporary checkout. No GitHub operations were attempted after the user deferred them.

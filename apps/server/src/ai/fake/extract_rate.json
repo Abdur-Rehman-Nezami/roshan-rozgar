@@ -1,0 +1,12 @@
+{
+  "value": {
+    "min": 1000,
+    "max": 1500
+  },
+  "display": {
+    "ur": "نمونہ — یہ اصل نتیجہ نہیں ہے۔",
+    "roman": "DEMO — yeh asal nateeja nahi hai.",
+    "en": "DEMO — this is a fixture result."
+  },
+  "confidence": 1
+}

@@ -1,0 +1,13 @@
+{
+  "trade_slug": "plumber",
+  "task_slug": "plumber.tap_repair",
+  "urgency": "today",
+  "summary": {
+    "ur": "نمونہ — یہ اصل نتیجہ نہیں ہے۔",
+    "roman": "DEMO — yeh asal nateeja nahi hai.",
+    "en": "DEMO — this is a fixture result."
+  },
+  "followUpIds": ["demo-tap-drip"],
+  "safetyTipId": "demo-close-valve",
+  "citedDocIds": ["demo-tap-guide"]
+}

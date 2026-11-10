@@ -46,12 +46,12 @@ Additional workspace commands: `pnpm -r build`, `pnpm lint`, `pnpm format:check`
 
 ## Seeded & mocked
 
-Nothing has been seeded or mocked in code yet. The plan calls for visibly labelled demo OTP, payment, arrival-code checking, ETAs and simulated responders, plus seeded areas, workers, customers, jobs, reviews and rate cards. No identity verification is planned.
+Implemented mocks: seventeen explicitly labelled AI text fixtures, fake STT transcripts and deterministic nonsemantic embedding vectors. Runtime results carry demo/mode metadata. No users, jobs or prices have been seeded into a database yet. Planned mocks still include OTP, payment, arrival-code checking, ETAs and simulated responders; they must be visibly labelled when built. No identity verification is planned.
 
 ## AI services and models used
 
-No runtime AI service has been integrated or measured. BUILD_PLAN.md §2 and §10 list the proposed providers; verify current model availability and SDK support during implementation. AI coding assistant used for this planning and handoff setup: OpenAI Codex.
+AI interfaces and fake/off runtime behavior are implemented, but no external AI service has been called or measured. BUILD_PLAN.md §2 and §10 list the proposed providers; verify current model availability and SDK support during implementation. AI coding assistant used for this planning and handoff setup: OpenAI Codex.
 
 ## Measured and limitations
 
-Workspace typechecks and builds passed using integrity-checked cached packages; this was not a normal pnpm installation. Registry DNS prevented full installation and lint, local HTTP binding was denied, and Docker daemon access was denied. No application-flow tests, provider measurements or device rehearsals have run. The referenced design-spec and problem-statement PDFs are not present. See HANDOFF.md for recovery and next steps.
+The foundation test suite has 56 passing cases. Workspace typechecks and builds passed using integrity-checked cached packages; this was not a normal pnpm installation. Registry DNS prevented full installation and lint, local HTTP binding was denied, and Docker daemon access was denied. No application-flow tests, provider measurements or device rehearsals have run. The referenced design-spec and problem-statement PDFs are not present. See HANDOFF.md for recovery and next steps.

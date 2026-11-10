@@ -1,0 +1,14 @@
+{
+  "patch": {
+    "name": {
+      "ur": "نمونہ — یہ اصل نتیجہ نہیں ہے۔",
+      "roman": "DEMO — yeh asal nateeja nahi hai.",
+      "en": "DEMO — this is a fixture result."
+    }
+  },
+  "readBack": {
+    "ur": "نمونہ — یہ اصل نتیجہ نہیں ہے۔",
+    "roman": "DEMO — yeh asal nateeja nahi hai.",
+    "en": "DEMO — this is a fixture result."
+  }
+}

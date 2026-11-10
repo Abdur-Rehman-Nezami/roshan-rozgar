@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "build": "tsc"
+    "build": "tsc && node ../../scripts/copy-server-assets.mjs"
   },
   "dependencies": {
     "@roshan/shared": "workspace:*",

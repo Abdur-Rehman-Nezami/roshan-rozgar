@@ -28,15 +28,15 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 
 - F-06 partial: React Router screen placeholders, localized shell/preferences/captions/back/offline status, welcome/role steps, Tailwind4, typed API client and disconnected Socket.IO client. Eight new API tests (43 total); workspace typecheck/build pass. Query provider/fonts/browser acceptance remain open. See docs/verification/F-06.md.
 
+- F-07 partial: seventeen validated JSON text fixtures, demo/mode metadata, typed off/unavailable/error paths, Redis mode/cache and PostgreSQL audit adapters, live allowance hook and STT/TTS/embed boundaries. Thirteen AI tests pass (56 total). Real HTTP/service/provider integration remains pending; docs/ai-smoke.md records live checks as NOT_RUN.
+
 ## Exact next work
 
-Implement **F-07 fake/off AI interfaces** with per-route validated fixtures, explicit demo metadata, mode-isolated cache keys and privacy-safe call logs. Keep live provider and HTTP wiring visibly unavailable until implemented. Then document F-08 live-provider smoke tests as not run/blocked, not measured GO decisions.
+**Next critical work is real F-05 server integration**, followed by finishing F-06/F-07 wiring and the tap-only core flow. Install Fastify5, its cookie/static/helmet/rate-limit/multipart plugins, Pino, Socket.IO/Redis adapter, BullMQ and ioredis in an environment with registry access. Replace the F-02 main/jobs scaffolding with real database/Redis connections, auth/error plugins, socket rooms and queues. Wire the tested session/readiness/sweeper helpers and AI runtime; never expose a successful readiness response for unavailable dependencies. Continue independent code work if an external check remains blocked, as the user requested.
 
-F-06 still needs TanStack Query/Zustand setup, self-hosted fonts and browser/device checks. The earlier cache assumption was wrong: Query/Zustand are absent. React Router/Socket.IO/Tailwind were recovered, and the UI is a labelled preview with disabled audio, not a working role flow.
+Still open: normal `pnpm install` and committed lockfile/ESLint (F-01); full development startup (F-02); PG17/pgvector migration and Drizzle runtime validation (F-04); full backend integration (F-05); TanStack Query/Zustand setup, self-hosted fonts and browser checks (F-06); real AI/cache/audit HTTP bindings and live SDK adapters (F-07); credentials/device smoke tests (F-08). No phase is complete. Only F-03 has met its task acceptance checks in the cached validation scope.
 
-F-05 still needs Fastify/auth/error/redaction/rate-limit/static plugins, Socket.IO rooms/adapter, BullMQ and real server/jobs integration. Dependencies are unavailable offline; helpers are tested but not wired.
-
-F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates remain open. Continue independent code work per user instruction. F-03 is accepted against cached package checks. Earlier commits: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`, F-05 partial `3cefe2d`; use Git log for the latest checkpoint. No phase is complete.
+Checkpoints: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`, F-05 partial `3cefe2d`, F-06 partial `d275a9e`. Use the local log for the latest AI/session checkpoint. Do not restart these implementations or overwrite their history.
 
 ## Environment and validation limits
 
@@ -46,7 +46,8 @@ F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates
 - For cached checks only, invoke pinned pnpm with `--config.verify-deps-before-run=false`; otherwise it attempts installation. This flag is not committed to workspace configuration.
 - Use Node native tests with `--test-isolation=none` in this sandbox, so assertions run in the current process and results report individual cases. Vitest/Playwright integration remains future work.
 - Compose configuration validation works, but Docker daemon socket access is denied. Local HTTP binding is denied (`listen EPERM`). No development servers or jobs are running.
-- Shared/server/web typechecks and builds pass against cached packages. Current tests: 4 supervisor, 14 contracts, 8 migration-runner, 9 backend foundation and 8 API-client cases (43 total). The current frontend uses 69 integrity-checked cached packages; these are not a normal installation.
+- Shared/server/web typechecks and builds pass against cached packages. Current tests: 4 supervisor, 14 contracts, 8 migration-runner, 9 backend foundation, 8 API-client and 13 AI cases (56 total). The current workspace uses 69 integrity-checked cached packages; these are not a normal installation.
+- The latest full test suite passes 56/56 cases; workspace builds/asset copying, formatting, Compose config and continuation-file checks pass. A compiled AI runtime fixture smoke check passes.
 - No live migrations, provider API calls, deployment, browser or device rehearsals have run. Local PG18 initialization succeeded, but server startup failed on its Unix socket; it is stopped. Build outputs and temporary test data are ignored.
 
 ## Missing inputs

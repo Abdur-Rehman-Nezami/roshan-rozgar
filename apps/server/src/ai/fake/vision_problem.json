@@ -1,0 +1,11 @@
+{
+  "trade_slug": "plumber",
+  "task_slug": "plumber.tap_repair",
+  "issue": {
+    "ur": "نمونہ — یہ اصل نتیجہ نہیں ہے۔",
+    "roman": "DEMO — yeh asal nateeja nahi hai.",
+    "en": "DEMO — this is a fixture result."
+  },
+  "hazards": [],
+  "too_dark": false
+}
