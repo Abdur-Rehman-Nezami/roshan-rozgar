@@ -22,11 +22,13 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 
 - F-03: shared Zod schemas/types for data entities, 42 API operations, six socket events, seventeen AI outputs, 28 screens and three-language prompts/lexicon. Fourteen contract tests plus four supervisor tests pass; workspace typecheck/build pass with cached dependencies. See docs/adr/0001-shared-contracts.md. Task accepted within the cached validation scope; full install/lint remains tracked separately under F-01.
 
+- F-04: initial eighteen-table SQL migration, Drizzle mirror, indexes/range/amount checks and transactional checksum/advisory-lock migration runner implemented. Eight migration tests pass (26 total). Live PG17/vector migration and Drizzle import remain blocked. See docs/verification/F-04.md.
+
 ## Exact next work
 
-Implement **F-04**: SQL migration from BUILD_PLAN.md §6.1, a transaction-safe version/checksum migration runner, and the Drizzle mirror. PostgreSQL client `psql` exists, but daemon/container access and local TCP binding remain restricted. Verify what is possible without claiming a live migration. Then continue F-05 through F-08, preserving blocked external checks.
+Implement **F-05 backend foundation**. Start with validated environment/session configuration and the Redis-independent database sweeper; then integrate Fastify, cookie auth, error/redaction plugins, Redis/BullMQ and authenticated Socket.IO when dependencies can be installed. Fastify/BullMQ/pino are absent from the cache; do not invent successful imports or full readiness. Existing Node HTTP/jobs entries remain explicitly scaffolded until replacement.
 
-All code work to date is in local commits; use the Git log for hashes. Earlier F-01 commit is `4e41968`, F-02 is `4fae12c`. Keep the recovery bundle updated before ending the session. No phase is complete.
+F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates remain open. Continue independent code work per user instruction. F-03 is accepted against cached package checks. Earlier commits: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`; use Git log for the latest checkpoint. No phase is complete.
 
 ## Environment and validation limits
 
@@ -37,7 +39,7 @@ All code work to date is in local commits; use the Git log for hashes. Earlier F
 - Use Node native tests with `--test-isolation=none` in this sandbox, so assertions run in the current process and results report individual cases. Vitest/Playwright integration remains future work.
 - Compose configuration validation works, but Docker daemon socket access is denied. Local HTTP binding is denied (`listen EPERM`). No development servers or jobs are running.
 - Shared/server/web typechecks and builds pass against cached packages. F-02 adds four passing supervisor tests and Compose validation; F-03 adds fourteen contract tests.
-- No migrations, provider API calls, deployment, browser or device rehearsals have run. Build outputs are ignored.
+- No live migrations, provider API calls, deployment, browser or device rehearsals have run. Local PG18 initialization succeeded, but server startup failed on its Unix socket; it is stopped. Build outputs and temporary test data are ignored.
 
 ## Missing inputs
 

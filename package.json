@@ -29,6 +29,10 @@
     "globals": "^16.5.0",
     "prettier": "3.8.4",
     "typescript": "6.0.3",
-    "typescript-eslint": "^8.46.0"
+    "typescript-eslint": "^8.46.0",
+    "drizzle-kit": "^0.31.8"
+  },
+  "dependencies": {
+    "pg": "8.21.0"
   }
 }

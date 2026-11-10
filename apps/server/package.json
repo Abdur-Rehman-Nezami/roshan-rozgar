@@ -8,6 +8,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@roshan/shared": "workspace:*"
+    "@roshan/shared": "workspace:*",
+    "pg": "8.21.0",
+    "drizzle-orm": "^0.45.3"
+  },
+  "devDependencies": {
+    "@types/pg": "8.20.0"
   }
 }
