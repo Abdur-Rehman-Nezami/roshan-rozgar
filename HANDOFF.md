@@ -26,13 +26,17 @@ The recovery bundle is `roshan-rozgar-planning.bundle`; it is refreshed at sessi
 
 - F-05 partial: config, JOSE session/cookie/role helpers, readiness and Redis-independent database sweeper/scheduler. Nine new tests pass (35 total), server typecheck passes. Full HTTP/socket/queue wiring is pending; main/jobs remain scaffolding. See docs/verification/F-05.md.
 
+- F-06 partial: React Router screen placeholders, localized shell/preferences/captions/back/offline status, welcome/role steps, Tailwind4, typed API client and disconnected Socket.IO client. Eight new API tests (43 total); workspace typecheck/build pass. Query provider/fonts/browser acceptance remain open. See docs/verification/F-06.md.
+
 ## Exact next work
 
-Implement **F-06 frontend shell** using the existing shared screen/route/prompt registry, localized captions/back/help controls, planned route placeholders, API client and query/socket providers. Keep unfinished features visibly unavailable. React Router, TanStack Query, Socket.IO client and Tailwind exist in the cache. Self-hosted fonts and browser QA may require a normal environment. Continue F-07 fake/off AI interfaces after this independent UI work.
+Implement **F-07 fake/off AI interfaces** with per-route validated fixtures, explicit demo metadata, mode-isolated cache keys and privacy-safe call logs. Keep live provider and HTTP wiring visibly unavailable until implemented. Then document F-08 live-provider smoke tests as not run/blocked, not measured GO decisions.
+
+F-06 still needs TanStack Query/Zustand setup, self-hosted fonts and browser/device checks. The earlier cache assumption was wrong: Query/Zustand are absent. React Router/Socket.IO/Tailwind were recovered, and the UI is a labelled preview with disabled audio, not a working role flow.
 
 F-05 still needs Fastify/auth/error/redaction/rate-limit/static plugins, Socket.IO rooms/adapter, BullMQ and real server/jobs integration. Dependencies are unavailable offline; helpers are tested but not wired.
 
-F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates remain open. Continue independent code work per user instruction. F-03 is accepted against cached package checks. Earlier commits: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`; use Git log for the latest checkpoint. No phase is complete.
+F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates remain open. Continue independent code work per user instruction. F-03 is accepted against cached package checks. Earlier commits: F-01 `4e41968`, F-02 `4fae12c`, F-03 `68b9784`, F-04 `bdff3e3`, F-05 partial `3cefe2d`; use Git log for the latest checkpoint. No phase is complete.
 
 ## Environment and validation limits
 
@@ -42,7 +46,7 @@ F-01 installation/lint, F-02 complete dev startup and F-04 live DB/Drizzle gates
 - For cached checks only, invoke pinned pnpm with `--config.verify-deps-before-run=false`; otherwise it attempts installation. This flag is not committed to workspace configuration.
 - Use Node native tests with `--test-isolation=none` in this sandbox, so assertions run in the current process and results report individual cases. Vitest/Playwright integration remains future work.
 - Compose configuration validation works, but Docker daemon socket access is denied. Local HTTP binding is denied (`listen EPERM`). No development servers or jobs are running.
-- Shared/server/web typechecks and builds pass against cached packages. F-02 adds four passing supervisor tests and Compose validation; F-03 adds fourteen contract tests.
+- Shared/server/web typechecks and builds pass against cached packages. Current tests: 4 supervisor, 14 contracts, 8 migration-runner, 9 backend foundation and 8 API-client cases (43 total). The current frontend uses 69 integrity-checked cached packages; these are not a normal installation.
 - No live migrations, provider API calls, deployment, browser or device rehearsals have run. Local PG18 initialization succeeded, but server startup failed on its Unix socket; it is stopped. Build outputs and temporary test data are ignored.
 
 ## Missing inputs

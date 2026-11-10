@@ -7,7 +7,7 @@ Updated: 2026-11-10 (Asia/Karachi).
 - Scope: **application implementation authorized**, starting at Phase 0 / F-01.
 - Application phases complete: **0 of 6**. Application backlog tasks complete: **1 of 44**.
 - Current instruction: continue implementation and local commits; leave GitHub aside. Pending environment checks do not stop independent coding.
-- Active implementation task: **F-06 — frontend shell next**, independent of F-05 integration. External gates and unfinished F-05 integration remain open.
+- Active implementation task: **F-07 — fake/off AI runtime next**. F-05 server integration and F-06 query/fonts/browser checks remain open.
 - Planning deliverables: original BUILD_PLAN.md preserved, phase breakdown in README.md, this task ledger, HANDOFF.md with a resume prompt, and AGENTS.md/CLAUDE.md with progress and commit rules.
 - Repository: `Abdur-Rehman-Nezami/roshan-rozgar`; checkpoint branch: `main`.
 - Publication: **BLOCKED**. Shell GitHub access failed DNS resolution. The GitHub connector read the empty repository but rejected file creation with HTTP 403, `Resource not accessible by integration`. No remote commit was created.
@@ -41,7 +41,7 @@ See BUILD_PLAN.md §18.2 for the full dependency list, owned files and each task
 | F-03 | Shared entity/API/event/AI schemas, screen/action/prompt IDs and errors             | DONE        | Entity schemas/types, 42 API operations, 6 socket events, 17 AI outputs, 28 screens and prompt/lexicon contracts. 14 contract tests plus 4 supervisor tests pass; workspace typecheck/build pass with cached packages. |
 | F-04 | Drizzle schema, SQL extensions, exclusion constraint, indexes and distance function | BLOCKED     | 18-table SQL migration, Drizzle mirror and checksum/transaction migration runner implemented. 8 migration tests pass (26 total). Live PG17/vector and Drizzle runtime checks pending.                                  |
 | F-05 | Server, auth skeleton, readiness, sockets, Redis/BullMQ and sweeper                 | IN_PROGRESS | Tested config/session/cookie/role/readiness/sweeper foundations implemented. 9 new tests (35 total). Fastify/plugins/sockets/queues and actual wiring remain pending.                                                  |
-| F-06 | Web skeleton, routes, shell, i18n/RTL, fonts and API/socket clients                 | NOT_STARTED | —                                                                                                                                                                                                                      |
+| F-06 | Web skeleton, routes, shell, i18n/RTL, fonts and API/socket clients                 | IN_PROGRESS | Localized routed shell, welcome/role steps, Tailwind and typed API/socket clients implemented. 8 API tests (43 total), typecheck/build pass. Query provider/fonts/browser verification pending.                        |
 | F-07 | AI interfaces, runtime modes, fixtures, logging and cache                           | NOT_STARTED | —                                                                                                                                                                                                                      |
 | F-08 | Live provider smoke tests and documented GO/NO-GO decisions                         | NOT_STARTED | Keys and device/audio tests required later                                                                                                                                                                             |
 | A-01 | Demo OTP, cookie login, current user and role guards                                | NOT_STARTED | —                                                                                                                                                                                                                      |
@@ -133,3 +133,9 @@ For future checkpoints append date, task/phase, commit ID from the previous comm
 - Added validated environment config, JOSE sessions/cookie helpers/role guard, dependency readiness helper and Redis-independent DB sweeper/scheduler.
 - PASS: 9 new backend tests (35 total) and server typecheck with cached packages. Dependencies now include JOSE6.2.3; 41 cached packages are available locally.
 - Full HTTP/auth/socket/queue integration is pending; no working backend routes are claimed. See docs/verification/F-05.md. Previous checkpoint: `bdff3e3` (F-04).
+
+### F-06 frontend checkpoint
+
+- Added React Router route placeholders, three-language dictionaries/preferences/RTL, persistent shell/captions/offline banner, three-step welcome/role selection, Tailwind4, typed fetch client and disconnected Socket.IO client.
+- PASS: 8 API-client tests (43 tests total), workspace typecheck/build with cached dependencies. All role pages visibly remain previews; audio is unavailable, not simulated as working.
+- Pending: TanStack Query/Zustand setup, self-hosted fonts and browser/RTL/device checks. Earlier handoff cache assumption corrected: TanStack Query and Zustand are not cached. See docs/verification/F-06.md. Previous checkpoint: `3cefe2d` (F-05 partial).

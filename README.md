@@ -2,7 +2,7 @@
 
 A planned mobile-first service connecting skilled workers and customers through Urdu, Roman Urdu, and English voice and tap flows.
 
-**Current state: Phase 0 started. F-01 workspace and a React welcome starter are implemented; dependency installation and final acceptance checks are blocked. No completed build phase or deployment yet.**
+**Current state: Phase 0 foundation implementation is underway. Local tooling, shared contracts, database migration tooling, backend helpers and a routed multilingual UI preview are committed. No complete application flow or build phase yet.**
 
 Repository: https://github.com/Abdur-Rehman-Nezami/roshan-rozgar
 
@@ -40,9 +40,9 @@ corepack pnpm -r typecheck
 corepack pnpm --filter @roshan/web dev
 ```
 
-Open the Vite URL to see the welcome starter and three language choices. The full worker/customer flow and backend are not implemented. Shared and server packages currently build TypeScript; the server module does not start an API listener.
+Open the Vite URL to see the welcome/language/role flow and planned screen placeholders. The full worker/customer flow is not implemented. `pnpm dev` supervises web, foundation server and jobs processes; the current server provides liveness only and reports not-ready. Auth/session/sweeper helpers are not wired into those processes yet.
 
-Additional workspace commands: `pnpm -r build`, `pnpm lint`, `pnpm format:check`, `pnpm format`. A full installation and lint run are still pending, and `pnpm-lock.yaml` has not been generated. See [F-01 verification](docs/verification/F-01.md) for exact results and environment limitations. The complete development/database commands from BUILD_PLAN.md §17.1 arrive in later foundation tasks.
+Additional workspace commands: `pnpm -r build`, `pnpm lint`, `pnpm format:check`, `pnpm format`. A full installation and lint run are still pending, and `pnpm-lock.yaml` has not been generated. See [F-01 verification](docs/verification/F-01.md) for exact results and environment limitations. Development Compose and migration tooling now exist. See docs/verification/F-04.md before running database migrations. Seed/audio/e2e/evaluation commands fail explicitly until their owning tasks are implemented. Push instructions are in [docs/PUSH.md](docs/PUSH.md).
 
 ## Seeded & mocked
 

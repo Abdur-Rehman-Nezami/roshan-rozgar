@@ -1,3 +1,6 @@
+@import "tailwindcss" source(none);
+@source "../";
+
 :root {
   --bg: #ffffff;
   --surface: #f3f5f8;
@@ -125,4 +128,130 @@ button:focus-visible {
   border-inline-start: 4px solid var(--accent);
   background: var(--surface);
   border-radius: var(--radius);
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
+  max-inline-size: 38rem;
+  margin-inline: auto;
+}
+.shell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-block-end: 1px solid var(--border);
+}
+.shell-header .brand {
+  text-decoration: none;
+}
+select {
+  min-block-size: var(--tap);
+  max-inline-size: 11rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding-inline: 0.75rem;
+  color: var(--text);
+  background: var(--surface);
+  font: inherit;
+}
+.preview-banner,
+.offline-banner {
+  padding: 0.75rem 1.25rem;
+  background: var(--surface);
+  border-block-end: 1px solid var(--border);
+}
+.offline-banner {
+  color: var(--danger);
+}
+.screen-content {
+  flex: 1;
+  padding: 1.25rem;
+}
+.screen-content .welcome {
+  padding: 0;
+  margin: 0;
+}
+.primary-button,
+.primary-link {
+  display: block;
+  inline-size: 100%;
+  min-block-size: var(--btn);
+  margin-block-start: 1rem;
+  padding: 1rem;
+  color: var(--on-primary);
+  background: var(--primary);
+  border-radius: var(--radius);
+  text-align: center;
+  text-decoration: none;
+}
+.role-choices {
+  display: grid;
+  gap: 1rem;
+  margin-block: 1.5rem;
+}
+.role-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-block-size: 96px;
+  padding: 1rem;
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  color: var(--primary);
+  text-decoration: none;
+}
+.role-card span {
+  font-size: 2rem;
+}
+.captions {
+  margin: 0.5rem 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+}
+.captions p {
+  margin: 0;
+}
+.shell-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg);
+}
+.shell-controls button {
+  padding: 0.5rem;
+}
+.mic-button {
+  background: var(--accent);
+  color: var(--on-accent);
+  min-block-size: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.voice-note {
+  padding: 0.5rem 1rem max(1rem, env(safe-area-inset-bottom));
+  margin: 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+a:focus-visible,
+select:focus-visible {
+  outline: 4px solid var(--accent);
+  outline-offset: 4px;
+}
+h1:focus {
+  outline: none;
 }

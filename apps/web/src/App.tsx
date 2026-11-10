@@ -1,68 +1,53 @@
-import { useEffect, useState } from "react";
-import { APP_NAME, APP_NAME_UR, directionFor, LANGUAGES } from "@roshan/shared";
-import type { Language } from "@roshan/shared";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import { SCREEN_IDS, SCREEN_ROUTES } from "@roshan/shared";
+import type { ScreenId } from "@roshan/shared";
+import { AppShell } from "./app/AppShell.tsx";
+import { PreferencesProvider, usePreferences } from "./app/preferences.tsx";
+import { Welcome } from "./app/Welcome.tsx";
 
-const copy = {
-  ur: {
-    language: "زبان چنیں",
-    title: "روشن روزگار میں خوش آمدید",
-    status: "ایپ کی تیاری جاری ہے۔ ابھی کام یا کاریگر بک نہیں ہو سکتا۔",
-  },
-  roman: {
-    language: "Zabaan chunein",
-    title: "Roshan Rozgar mein khush aamdeed",
-    status: "App ki tayyari jaari hai. Abhi kaam ya kaarigar book nahi ho sakta.",
-  },
-  en: {
-    language: "Choose your language",
-    title: "Welcome to Roshan Rozgar",
-    status: "This app is being built. Jobs and worker bookings are not available yet.",
-  },
-} satisfies Record<Language, { language: string; title: string; status: string }>;
-
-const languageNames: Record<Language, string> = {
-  ur: "اردو",
-  roman: "Roman Urdu",
-  en: "English",
-};
-
-export function App() {
-  const [language, setLanguage] = useState<Language>("ur");
-  useEffect(() => {
-    document.documentElement.dir = directionFor(language);
-    document.documentElement.lang = language === "roman" ? "ur-Latn" : language;
-  }, [language]);
-
+function Placeholder({ screen }: { screen: ScreenId }) {
+  const { t } = usePreferences();
   return (
-    <main className="welcome">
-      <header>
-        <p className="brand" lang="en" dir="ltr">
-          {APP_NAME}
-        </p>
-        <p className="brand-urdu" lang="ur" dir="rtl">
-          {APP_NAME_UR}
-        </p>
-      </header>
-      <h1>{copy[language].title}</h1>
-      <fieldset>
-        <legend>{copy[language].language}</legend>
-        <div className="languages">
-          {LANGUAGES.map((value) => (
-            <button
-              key={value}
-              type="button"
-              aria-pressed={language === value}
-              onClick={() => setLanguage(value)}
-              lang={value === "roman" ? "ur-Latn" : value}
-            >
-              {languageNames[value]}
-            </button>
-          ))}
-        </div>
-      </fieldset>
-      <p className="notice" role="status" aria-live="polite">
-        {copy[language].status}
-      </p>
-    </main>
+    <AppShell screen={screen}>
+      <h1 id="screen-title" tabIndex={-1}>
+        {t.screens[screen]}
+      </h1>
+      <p className="notice">{t.unavailable}</p>
+      <Link className="primary-link" to="/">
+        {t.home}
+      </Link>
+    </AppShell>
+  );
+}
+function NotFound() {
+  const { t } = usePreferences();
+  return (
+    <AppShell>
+      <h1 id="screen-title" tabIndex={-1}>
+        {t.notFound}
+      </h1>
+      <Link to="/">{t.home}</Link>
+    </AppShell>
+  );
+}
+export function App() {
+  return (
+    <PreferencesProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          {SCREEN_IDS.filter((screen) => screen !== "W0" && SCREEN_ROUTES[screen] !== null).map(
+            (screen) => (
+              <Route
+                key={screen}
+                path={SCREEN_ROUTES[screen] as string}
+                element={<Placeholder screen={screen} />}
+              />
+            ),
+          )}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </PreferencesProvider>
   );
 }
