@@ -4,7 +4,7 @@
 
 Read HANDOFF.md, PROGRESS.md, then BUILD_PLAN.md §0–§3 and §18. Read §6 and §11 before changing state. The root BUILD_PLAN.md is the canonical engineering plan; do not create a divergent copy in docs/. The referenced design specification wins on UX when available; the plan wins on engineering.
 
-The latest user scope is **plan and continuation setup only**. Application implementation has not been requested for this planning session. A later explicit request to continue the build authorizes work from the next task in HANDOFF.md.
+The user has authorized application implementation, starting with Phase 0 at F-01. Continue dependency-ready work from HANDOFF.md and preserve separate commits for completed phases. Keep incomplete or externally blocked checks visible.
 
 ## Product and engineering rules (BUILD_PLAN.md §0)
 

@@ -4,13 +4,13 @@ Updated: 2026-11-10 (Asia/Karachi).
 
 ## Current checkpoint
 
-- Scope: **plan and continuation setup only**, as clarified by the user.
+- Scope: **application implementation authorized**, starting at Phase 0 / F-01.
 - Application phases complete: **0 of 6**. Application backlog tasks complete: **0 of 44**.
-- Active implementation task: none. Next task when implementation is requested: **F-01**.
+- Active implementation task: **F-01 — workspace code implemented; acceptance BLOCKED by dependency installation/lint**. Next: finish F-01, then F-02.
 - Planning deliverables: original BUILD_PLAN.md preserved, phase breakdown in README.md, this task ledger, HANDOFF.md with a resume prompt, and AGENTS.md/CLAUDE.md with progress and commit rules.
 - Repository: `Abdur-Rehman-Nezami/roshan-rozgar`; checkpoint branch: `main`.
 - Publication: **BLOCKED**. Shell GitHub access failed DNS resolution. The GitHub connector read the empty repository but rejected file creation with HTTP 403, `Resource not accessible by integration`. No remote commit was created.
-- Local recovery: the planning files are saved in a local commit using `.planning-git` as the Git metadata directory because the environment's root `.git` is read-only and empty. A portable `roshan-rozgar-planning.bundle` is generated from that commit. These recovery artifacts are not tracked inside their own commit.
+- Local recovery: the plan and implementation files are saved in local commits using `.planning-git` as the Git metadata directory because the environment's root `.git` is read-only and empty. A portable `roshan-rozgar-planning.bundle` is generated from that commit. These recovery artifacts are not tracked inside their own commit.
 
 Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE, DEFERRED. A phase is DONE only after its exit checks pass. A task can be implemented while its verification remains blocked; record this explicitly and keep it out of DONE.
 
@@ -18,14 +18,14 @@ Status vocabulary: NOT_STARTED, IN_PROGRESS, BLOCKED, DONE, DEFERRED. A phase is
 
 The names, relative times and exit gates come from BUILD_PLAN.md §18.1. Phases can overlap. The task groupings below are a navigation aid; §18.2 remains authoritative for scope, dependencies and priorities.
 
-| Phase | Planned clock | Status | Work and exit gate | Completion commit |
-|---|---|---|---|---|
-| 0 — Foundation | T0–T+0:45 | NOT_STARTED | F-01–F-08: workspace/contracts, DB migration, server/web skeletons, fake AI interfaces, provider smoke report. `pnpm dev` boots; migration runs; all routes render; `docs/ai-smoke.md` records real GO/NO-GO evidence. | Not created |
-| 1 — Core flows | T+0:45–T+3:30 | NOT_STARTED | Core A/B work, deterministic voice helpers and D data/matching support. Tap-only golden path passes locally with `AI_MODE=fake`, including booking race/privacy/expiry checks from §16. | Not created |
-| 2 — Live AI + RAG | T+2:30–T+4:30 | NOT_STARTED | Live C work and D retrieval/embedding/price integration. Voice onboarding, triage, messages and reviews work through real providers. Golden path by voice on a phone via HTTPS tunnel. | Not created |
-| 3 — Deploy + harden | T+4:00–T+5:00 | NOT_STARTED | E-01/E-02, deployment, seeded production DB and fallback/device checks. End-to-end golden path passes against the deployed URL. | Not created |
-| 4 — Differentiators | T+4:30–freeze | NOT_STARTED | Eligible P1 features: guidance, D1 race test and AI switch, emergency mode, photo triage and reputation. Each included feature is demonstrated twice consecutively; §16.3 device checks recorded. | Not created |
-| 5 — Freeze + rehearse | Freeze–deadline | NOT_STARTED | README matches reality; demo script rehearsed three times; Q&A prepared; submission done 15 minutes early. Freeze is deadline minus 75 minutes. Deadline is currently unknown. | Not created |
+| Phase                 | Planned clock   | Status      | Work and exit gate                                                                                                                                                                                                     | Completion commit |
+| --------------------- | --------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| 0 — Foundation        | T0–T+0:45       | IN_PROGRESS | F-01–F-08: workspace/contracts, DB migration, server/web skeletons, fake AI interfaces, provider smoke report. `pnpm dev` boots; migration runs; all routes render; `docs/ai-smoke.md` records real GO/NO-GO evidence. | Not created       |
+| 1 — Core flows        | T+0:45–T+3:30   | NOT_STARTED | Core A/B work, deterministic voice helpers and D data/matching support. Tap-only golden path passes locally with `AI_MODE=fake`, including booking race/privacy/expiry checks from §16.                                | Not created       |
+| 2 — Live AI + RAG     | T+2:30–T+4:30   | NOT_STARTED | Live C work and D retrieval/embedding/price integration. Voice onboarding, triage, messages and reviews work through real providers. Golden path by voice on a phone via HTTPS tunnel.                                 | Not created       |
+| 3 — Deploy + harden   | T+4:00–T+5:00   | NOT_STARTED | E-01/E-02, deployment, seeded production DB and fallback/device checks. End-to-end golden path passes against the deployed URL.                                                                                        | Not created       |
+| 4 — Differentiators   | T+4:30–freeze   | NOT_STARTED | Eligible P1 features: guidance, D1 race test and AI switch, emergency mode, photo triage and reputation. Each included feature is demonstrated twice consecutively; §16.3 device checks recorded.                      | Not created       |
+| 5 — Freeze + rehearse | Freeze–deadline | NOT_STARTED | README matches reality; demo script rehearsed three times; Q&A prepared; submission done 15 minutes early. Freeze is deadline minus 75 minutes. Deadline is currently unknown.                                         | Not created       |
 
 P1/P2 work waits until the golden path is green on the deployed URL (§1.2). P2/P3 work remains optional; record deliberate deferrals and do not silently treat them as complete. There is no real event clock yet.
 
@@ -33,70 +33,75 @@ P1/P2 work waits until the golden path is green on the deployed URL (§1.2). P2/
 
 See BUILD_PLAN.md §18.2 for the full dependency list, owned files and each task's "done when" check. Update the evidence column with real commands/results and the committing checkpoint as work proceeds.
 
-| ID | Scope | Status | Evidence / commit |
-|---|---|---|---|
-| F-01 | Public repo, pnpm workspace, strict TS, lint/format and environment configuration | NOT_STARTED | Public repository exists; monorepo and typecheck not implemented |
-| F-02 | Dev Compose and root development/database/test/audio/evaluation scripts | NOT_STARTED | — |
-| F-03 | Shared entity/API/event/AI schemas, screen/action/prompt IDs and errors | NOT_STARTED | — |
-| F-04 | Drizzle schema, SQL extensions, exclusion constraint, indexes and distance function | NOT_STARTED | — |
-| F-05 | Server, auth skeleton, readiness, sockets, Redis/BullMQ and sweeper | NOT_STARTED | — |
-| F-06 | Web skeleton, routes, shell, i18n/RTL, fonts and API/socket clients | NOT_STARTED | — |
-| F-07 | AI interfaces, runtime modes, fixtures, logging and cache | NOT_STARTED | — |
-| F-08 | Live provider smoke tests and documented GO/NO-GO decisions | NOT_STARTED | Keys and device/audio tests required later |
-| A-01 | Demo OTP, cookie login, current user and role guards | NOT_STARTED | — |
-| A-02 | Worker profile, availability, slots, completeness and embedding jobs | NOT_STARTED | — |
-| A-03 | Requests, ranked matches and address privacy | NOT_STARTED | — |
-| A-04 | Offers, expiration, next worker, emergency cascade and simulated responses | NOT_STARTED | — |
-| A-05 | Threads, voice/text/price messages, sockets and translation hook | NOT_STARTED | — |
-| A-06 | Booking holds, confirmations, state transitions, race protection and expiry | NOT_STARTED | — |
-| A-07 | Reviews, transactional statistics/tags and summary jobs | NOT_STARTED | — |
-| A-08 | Demo control endpoints, race test, modes, logs and disclosures (P1) | NOT_STARTED | — |
-| A-09 | Earnings, booking history and rebooking (P2) | NOT_STARTED | — |
-| B-01 | Accessible design components, RTL and dark theme | NOT_STARTED | — |
-| B-02 | Worker W0–W5 tap-only onboarding | NOT_STARTED | — |
-| B-03 | Worker home, incoming offers, thread and job steps | NOT_STARTED | — |
-| B-04 | Customer C1–C10 including matches, booking, demo payment and reviews | NOT_STARTED | — |
-| B-05 | Playwright multi-context golden path in fake mode | NOT_STARTED | — |
-| B-06 | D1 demo panel UI (P1) | NOT_STARTED | — |
-| B-07 | Error and empty states (P1) | NOT_STARTED | — |
-| B-08 | Remaining screens, maps, PWA/offline queue and helper/safety features (P2) | NOT_STARTED | — |
-| C-01 | Recorder, STT, captions and speech fallback | NOT_STARTED | — |
-| C-02 | Prompt catalog, audio build, playback and cached dynamic TTS | NOT_STARTED | — |
-| C-03 | Local command lexicon and number/time parsers | NOT_STARTED | — |
-| C-04 | Live LLM wrapper with logging, effort, cache, errors and fallbacks | NOT_STARTED | — |
-| C-05 | Voice onboarding extraction, corrections and read-back | NOT_STARTED | — |
-| C-06 | Action registry, targets, guidance, highlights and assistant turns | NOT_STARTED | — |
-| C-07 | Offer/availability parsing, translation, agreements and review AI | NOT_STARTED | — |
-| C-08 | Photo triage and darkness checks (P1); work-photo tagging (P2) | NOT_STARTED | — |
-| D-01 | Three-script area/trade/rate/guide/help/glossary seed content | NOT_STARTED | — |
-| D-02 | Deterministic generators, seed loader and statistics | NOT_STARTED | — |
-| D-03 | Worker/KB embeddings and re-embedding jobs | NOT_STARTED | — |
-| D-04 | Hybrid retrieval, price statistics, triage and source attribution | NOT_STARTED | — |
-| D-05 | Pure ranking function with reasons and tests | NOT_STARTED | — |
-| D-06 | Thirty-utterance live triage evaluation and measured accuracy (P1) | NOT_STARTED | — |
-| E-01 | Production Dockerfile, Compose, Caddy and deploy script | NOT_STARTED | — |
-| E-02 | Lightsail deployment, seed and two-phone golden path | NOT_STARTED | AWS access/domain configuration required later |
-| E-03 | GitHub Actions typecheck and unit tests (P1) | NOT_STARTED | — |
-| E-04 | Laptop Compose plus HTTPS tunnel rehearsal (P1) | NOT_STARTED | — |
-| S-01 | Optional MCP interface to the in-app action registry (P3) | NOT_STARTED | Stretch only after the planned app is demoable |
+| ID   | Scope                                                                               | Status      | Evidence / commit                                                                                                                             |
+| ---- | ----------------------------------------------------------------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| F-01 | Public repo, pnpm workspace, strict TS, lint/format and environment configuration   | BLOCKED     | Workspace/config/starter implemented; cached typecheck/build PASS; normal install, lockfile and ESLint pending. See docs/verification/F-01.md |
+| F-02 | Dev Compose and root development/database/test/audio/evaluation scripts             | NOT_STARTED | —                                                                                                                                             |
+| F-03 | Shared entity/API/event/AI schemas, screen/action/prompt IDs and errors             | NOT_STARTED | —                                                                                                                                             |
+| F-04 | Drizzle schema, SQL extensions, exclusion constraint, indexes and distance function | NOT_STARTED | —                                                                                                                                             |
+| F-05 | Server, auth skeleton, readiness, sockets, Redis/BullMQ and sweeper                 | NOT_STARTED | —                                                                                                                                             |
+| F-06 | Web skeleton, routes, shell, i18n/RTL, fonts and API/socket clients                 | NOT_STARTED | —                                                                                                                                             |
+| F-07 | AI interfaces, runtime modes, fixtures, logging and cache                           | NOT_STARTED | —                                                                                                                                             |
+| F-08 | Live provider smoke tests and documented GO/NO-GO decisions                         | NOT_STARTED | Keys and device/audio tests required later                                                                                                    |
+| A-01 | Demo OTP, cookie login, current user and role guards                                | NOT_STARTED | —                                                                                                                                             |
+| A-02 | Worker profile, availability, slots, completeness and embedding jobs                | NOT_STARTED | —                                                                                                                                             |
+| A-03 | Requests, ranked matches and address privacy                                        | NOT_STARTED | —                                                                                                                                             |
+| A-04 | Offers, expiration, next worker, emergency cascade and simulated responses          | NOT_STARTED | —                                                                                                                                             |
+| A-05 | Threads, voice/text/price messages, sockets and translation hook                    | NOT_STARTED | —                                                                                                                                             |
+| A-06 | Booking holds, confirmations, state transitions, race protection and expiry         | NOT_STARTED | —                                                                                                                                             |
+| A-07 | Reviews, transactional statistics/tags and summary jobs                             | NOT_STARTED | —                                                                                                                                             |
+| A-08 | Demo control endpoints, race test, modes, logs and disclosures (P1)                 | NOT_STARTED | —                                                                                                                                             |
+| A-09 | Earnings, booking history and rebooking (P2)                                        | NOT_STARTED | —                                                                                                                                             |
+| B-01 | Accessible design components, RTL and dark theme                                    | NOT_STARTED | —                                                                                                                                             |
+| B-02 | Worker W0–W5 tap-only onboarding                                                    | NOT_STARTED | —                                                                                                                                             |
+| B-03 | Worker home, incoming offers, thread and job steps                                  | NOT_STARTED | —                                                                                                                                             |
+| B-04 | Customer C1–C10 including matches, booking, demo payment and reviews                | NOT_STARTED | —                                                                                                                                             |
+| B-05 | Playwright multi-context golden path in fake mode                                   | NOT_STARTED | —                                                                                                                                             |
+| B-06 | D1 demo panel UI (P1)                                                               | NOT_STARTED | —                                                                                                                                             |
+| B-07 | Error and empty states (P1)                                                         | NOT_STARTED | —                                                                                                                                             |
+| B-08 | Remaining screens, maps, PWA/offline queue and helper/safety features (P2)          | NOT_STARTED | —                                                                                                                                             |
+| C-01 | Recorder, STT, captions and speech fallback                                         | NOT_STARTED | —                                                                                                                                             |
+| C-02 | Prompt catalog, audio build, playback and cached dynamic TTS                        | NOT_STARTED | —                                                                                                                                             |
+| C-03 | Local command lexicon and number/time parsers                                       | NOT_STARTED | —                                                                                                                                             |
+| C-04 | Live LLM wrapper with logging, effort, cache, errors and fallbacks                  | NOT_STARTED | —                                                                                                                                             |
+| C-05 | Voice onboarding extraction, corrections and read-back                              | NOT_STARTED | —                                                                                                                                             |
+| C-06 | Action registry, targets, guidance, highlights and assistant turns                  | NOT_STARTED | —                                                                                                                                             |
+| C-07 | Offer/availability parsing, translation, agreements and review AI                   | NOT_STARTED | —                                                                                                                                             |
+| C-08 | Photo triage and darkness checks (P1); work-photo tagging (P2)                      | NOT_STARTED | —                                                                                                                                             |
+| D-01 | Three-script area/trade/rate/guide/help/glossary seed content                       | NOT_STARTED | —                                                                                                                                             |
+| D-02 | Deterministic generators, seed loader and statistics                                | NOT_STARTED | —                                                                                                                                             |
+| D-03 | Worker/KB embeddings and re-embedding jobs                                          | NOT_STARTED | —                                                                                                                                             |
+| D-04 | Hybrid retrieval, price statistics, triage and source attribution                   | NOT_STARTED | —                                                                                                                                             |
+| D-05 | Pure ranking function with reasons and tests                                        | NOT_STARTED | —                                                                                                                                             |
+| D-06 | Thirty-utterance live triage evaluation and measured accuracy (P1)                  | NOT_STARTED | —                                                                                                                                             |
+| E-01 | Production Dockerfile, Compose, Caddy and deploy script                             | NOT_STARTED | —                                                                                                                                             |
+| E-02 | Lightsail deployment, seed and two-phone golden path                                | NOT_STARTED | AWS access/domain configuration required later                                                                                                |
+| E-03 | GitHub Actions typecheck and unit tests (P1)                                        | NOT_STARTED | —                                                                                                                                             |
+| E-04 | Laptop Compose plus HTTPS tunnel rehearsal (P1)                                     | NOT_STARTED | —                                                                                                                                             |
+| S-01 | Optional MCP interface to the in-app action registry (P3)                           | NOT_STARTED | Stretch only after the planned app is demoable                                                                                                |
 
 ## Validation log
 
-| Check | Result | Evidence |
-|---|---|---|
-| Read original plan and extract phases/backlog | PASS | Six phases (§18.1), 44 distinct task IDs (§18.2) |
-| Planning consistency and file references | PASS | Python standard-library check: all 44 source task IDs appear once in the ledger; six phase rows; all relative Markdown file links resolve; plan unchanged by SHA-256 comparison |
-| GitHub repository read | PASS | Connector reports public repository, default branch main; contents API confirms empty before setup |
-| Shell remote access | BLOCKED | `git ls-remote …` → `Could not resolve host: github.com` |
-| GitHub connector write | BLOCKED | `create_file` for BUILD_PLAN.md → HTTP 403 `Resource not accessible by integration`; no commit created |
-| Local checkpoint and portable bundle | PASS | `7c4b587` created; `git --git-dir=.planning-git bundle verify roshan-rozgar-planning.bundle` passed; fresh temporary clone recovered all seven files byte-for-byte with a clean working tree |
-| Application typecheck/tests/build/migration/e2e | NOT_RUN | No application code or dependencies; this session is planning only |
-| Live AI, deployment and device rehearsals | NOT_RUN | No integrations, keys, deployment or device sessions |
+| Check                                         | Result                         | Evidence                                                                                                                                                                                     |
+| --------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Read original plan and extract phases/backlog | PASS                           | Six phases (§18.1), 44 distinct task IDs (§18.2)                                                                                                                                             |
+| Planning consistency and file references      | PASS                           | Python standard-library check: all 44 source task IDs appear once in the ledger; six phase rows; all relative Markdown file links resolve; plan unchanged by SHA-256 comparison              |
+| GitHub repository read                        | PASS                           | Connector reports public repository, default branch main; contents API confirms empty before setup                                                                                           |
+| Shell remote access                           | BLOCKED                        | `git ls-remote …` → `Could not resolve host: github.com`                                                                                                                                     |
+| GitHub connector write                        | BLOCKED                        | `create_file` for BUILD_PLAN.md → HTTP 403 `Resource not accessible by integration`; no commit created                                                                                       |
+| Local checkpoint and portable bundle          | PASS                           | `7c4b587` created; `git --git-dir=.planning-git bundle verify roshan-rozgar-planning.bundle` passed; fresh temporary clone recovered all seven files byte-for-byte with a clean working tree |
+| F-01 typecheck and builds                     | PASS, cached dependencies only | All three package typechecks passed; shared/server emit and React/Vite production build passed; details in docs/verification/F-01.md                                                         |
+| Normal install / lockfile / ESLint            | BLOCKED / NOT_RUN              | Registry metadata fetch failed; no lockfile generated; ESLint dependencies unavailable offline                                                                                               |
+| Dev preview / Docker                          | BLOCKED                        | Local Vite bind denied with EPERM; Docker socket access denied                                                                                                                               |
+| App-flow tests / migration / e2e              | NOT_RUN                        | F-02 onward not implemented                                                                                                                                                                  |
+| Live AI, deployment and device rehearsals     | NOT_RUN                        | No integrations, keys, deployment or device sessions                                                                                                                                         |
 
 ## Checkpoint history
 
-| Date | Checkpoint | Outcome |
-|---|---|---|
+| Date       | Checkpoint                                                         | Outcome                                                                                                                                                                                                                                           |
+| ---------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-11-10 | `7c4b587` — `docs(plan): add phase ledger and cross-model handoff` | Planning files and original plan committed locally on main; portable bundle verified and recovered into a normal checkout with identical files. Remote publication blocked by DNS and connector write permission. No application phase completed. |
+
+| 2026-11-10 | F-01 implementation checkpoint, after `c2e8a6b` | Workspace, strict TS, lint/format config, environment example and React starter implemented. Cached typechecks/builds pass; normal install, lockfile and lint remain blocked. GitHub write retried and still rejected with 403; shell DNS still fails. No phase completed. |
 
 For future checkpoints append date, task/phase, commit ID from the previous committed checkpoint, validation results, branch and push status. Phase completion evidence must state which gates passed, not just that files exist.

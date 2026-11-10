@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Workspace dependencies must be explicit; application code uses workspace:*.
+linkWorkspacePackages: false
+strictPeerDependencies: true

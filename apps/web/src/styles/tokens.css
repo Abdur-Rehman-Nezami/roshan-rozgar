@@ -1,0 +1,128 @@
+:root {
+  --bg: #ffffff;
+  --surface: #f3f5f8;
+  --text: #111827;
+  --muted: #4b5563;
+  --border: #cbd5e1;
+  --primary: #0b6e4f;
+  --on-primary: #ffffff;
+  --accent: #1d4ed8;
+  --on-accent: #ffffff;
+  --warning: #b45309;
+  --danger: #c62828;
+  --overlay: rgba(17, 24, 39, 0.6);
+  --font-ur-display: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+  --font-ur-text: "Noto Naskh Arabic", serif;
+  --font-latin: Inter, system-ui, sans-serif;
+  --radius: 12px;
+  --tap: 56px;
+  --btn: 64px;
+  font-family: var(--font-latin);
+  font-size: 18px;
+  color: var(--text);
+  background: var(--bg);
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --text: #f1f5f9;
+  --muted: #cbd5e1;
+  --border: #334155;
+  --primary: #34d399;
+  --on-primary: #052e1f;
+  --accent: #60a5fa;
+  --on-accent: #0b1530;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --overlay: rgba(0, 0, 0, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+:lang(ur) {
+  font-family: var(--font-ur-text);
+  font-size: max(1em, 20px);
+  line-height: 1.9;
+}
+
+:lang(en),
+:lang(ur-Latn) {
+  font-family: var(--font-latin);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.welcome {
+  max-inline-size: 36rem;
+  padding: 2rem 1.25rem;
+  margin-inline: auto;
+}
+
+.brand {
+  color: var(--primary);
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+
+.brand-urdu {
+  font-family: var(--font-ur-display);
+  font-size: 2rem;
+  color: var(--primary);
+}
+
+h1 {
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding-block: 1rem;
+}
+
+.languages {
+  display: grid;
+  gap: 0.75rem;
+}
+
+button {
+  min-block-size: var(--btn);
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+button[aria-pressed="true"] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+button:focus-visible {
+  outline: 4px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.notice {
+  margin-block-start: 2rem;
+  padding: 1rem;
+  border-inline-start: 4px solid var(--accent);
+  background: var(--surface);
+  border-radius: var(--radius);
+}
